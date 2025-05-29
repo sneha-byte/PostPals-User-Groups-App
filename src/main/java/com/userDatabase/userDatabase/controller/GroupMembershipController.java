@@ -1,5 +1,6 @@
 package com.userDatabase.userDatabase.controller;
 
+import com.userDatabase.userDatabase.service.MembershipService;
 import com.userDatabase.userDatabase.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +11,15 @@ public class GroupMembershipController {
 
     @Autowired
     private UserService userService;
+  
+    @Autowired
+    private MembershipService membershipService;
 
-    @PostMapping("/join")
-    public String joinGroup(@RequestParam Long userId, @RequestParam Long groupId) {
-        userService.addUserToGroup(userId, groupId);
-        return "User joined group";
+
+    @PostMapping("/add")
+    public String addUserToGroup(@RequestParam Long userId, @RequestParam Long groupId, @RequestParam String role) {
+        userService.addUserToGroupWithRole(userId, groupId, role);
+        return "User added with role " + role;
     }
 
     @PostMapping("/leave")

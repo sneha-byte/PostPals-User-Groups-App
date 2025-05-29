@@ -14,42 +14,32 @@ public class Group {
 
     private String name;
 
-    String creator; 
-
-    @ManyToMany(mappedBy = "groups")
-    private Set<User> members = new HashSet<>();
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getCreator() {
-		return creator;
-	}
-
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
-
-	public Set<User> getMembers() {
-		return members;
-	}
-
-	public void setMembers(Set<User> members) {
-		this.members = members;
-	}    
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     
-}
+    private Set<Membership> memberships = new HashSet<>();
 
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Membership> getMemberships() {
+        return memberships;
+    }
+
+    public void setMemberships(Set<Membership> memberships) {
+        this.memberships = memberships;
+    }
+}

@@ -10,70 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class UserService {
+public class MembershipService {
 
-    @Autowired
-    UserRepository userRepository;
-    
     @Autowired
     private MembershipRepository membershipRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private GroupRepository groupRepository;
 
-    public void create(User user) {
-        userRepository.save(user);
-    }
-
-    public List<User> getAll() {
-        return userRepository.findAll();
-    }
-
-    public User getById(Long id) {
-    	Optional<User> userOptional = userRepository.findById(id);
-    	if (userOptional.isEmpty()) {
-    		return null; 
-    	}
-        return userOptional.get();
-    }
-
-    public void update(Long id, User updatedUser) {
-        User existingUser = userRepository.findById(id).orElse(null);
-        if (existingUser != null) {
-            existingUser.setName(updatedUser.getName());
-            existingUser.setEmail(updatedUser.getEmail());
-            userRepository.save(existingUser);
-        }
-    }
-    
-    public User getByUsername(String name) {
-        return userRepository.findTopByName(name);
-    }
-
-    public User getByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-
-    public void delete(Long id) {
-        userRepository.deleteById(id);
-    }
-
-    
-    public List<User> findByName(String name) {
-        return userRepository.findByName(name);
-    }
-    
-    /** return all users
-     * @return array of users 
-     */
-    public List<User> findAllUsers() {
-    	return userRepository.findAll();
-    }
-    
     public void addUserToGroupWithRole(Long userId, Long groupId, String role) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -84,8 +33,8 @@ public class UserService {
         membership.setUser(user);
         membership.setGroup(group);
         membership.setRole(role);
-        
-        membershipRepository.save(membership);  // Correct usage
+
+        membershipRepository.save(membership);
     }
 
     public void removeUserFromGroup(Long userId, Long groupId) {
@@ -98,5 +47,11 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Membership not found"));
 
         membershipRepository.delete(membership);
+    }
+
+    public List<Membership> getGroupsForUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return membershipRepository.findByUser(user);
     }
 }
