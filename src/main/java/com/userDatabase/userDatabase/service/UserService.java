@@ -1,5 +1,6 @@
 package com.userDatabase.userDatabase.service;
 
+import com.userDatabase.userDatabase.model.Group;
 import com.userDatabase.userDatabase.model.User;
 import com.userDatabase.userDatabase.repository.GroupRepository;
 import com.userDatabase.userDatabase.repository.UserRepository;
@@ -69,15 +70,22 @@ public class UserService {
     }
     
     public void addUserToGroup(Long userId, Long groupId) {
-        User user = userRepository.findById(userId).orElseThrow();
-        Group group = groupRepository.findById(groupId).orElseThrow();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new RuntimeException("Group not found"));
+
         user.getGroups().add(group);
         userRepository.save(user);
     }
 
+
     public void removeUserFromGroup(Long userId, Long groupId) {
-        User user = userRepository.findById(userId).orElseThrow();
-        Group group = groupRepository.findById(groupId).orElseThrow();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new RuntimeException("Group not found"));
+
         user.getGroups().remove(group);
         userRepository.save(user);
     }
