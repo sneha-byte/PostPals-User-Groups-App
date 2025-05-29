@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.userDatabase.userDatabase.service.UserService;
 
@@ -27,7 +28,12 @@ public class HomeController {
     }
     
     @GetMapping("/members")
-    public String showMembersPage() {
-    	return "members"; 
+    public String showMembersPage(@RequestParam(required = false) String search, ModelMap model) {
+        if (search != null && !search.isEmpty()) {
+            model.addAttribute("users", userService.findByName(search));
+        } else {
+            model.addAttribute("users", userService.findAllUsers());
+        }
+        return "members";
     }
 }
