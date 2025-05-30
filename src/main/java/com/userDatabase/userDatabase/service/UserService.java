@@ -6,11 +6,13 @@ import com.userDatabase.userDatabase.model.User;
 import com.userDatabase.userDatabase.repository.GroupRepository;
 import com.userDatabase.userDatabase.repository.MembershipRepository;
 import com.userDatabase.userDatabase.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 
 @Service
 public class UserService {
@@ -67,30 +69,32 @@ public class UserService {
         return userRepository.findByName(name);
     }
     
-    /** return all users
-     * @return array of users 
-     */
+    // return all users 
     public List<User> findAllUsers() {
     	return userRepository.findAll();
     }
     
     public void addUserToGroupWithRole(Long userId, Long groupId, String role) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        Group group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new RuntimeException("Group not found"));
-
-        Membership membership = new Membership();
-        membership.setUser(user);
-        membership.setGroup(group);
-        membership.setRole(role);
         
-        membershipRepository.save(membership);  // Correct usage
+        try {
+        	User user = userRepository.findById(userId).get(); 
+        	Group group = groupRepository.findById(groupId).get(); 
+        	Membership membership = new Membership();
+            membership.setUser(user);
+            membership.setGroup(group);
+            membership.setRole(role);
+            
+            membershipRepository.save(membership);  
+        }
+        catch(Exception e) {
+        	new RuntimeException("Group or user not found");
+        }        
     }
 
     public void removeUserFromGroup(Long userId, Long groupId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("Group not found"));
 

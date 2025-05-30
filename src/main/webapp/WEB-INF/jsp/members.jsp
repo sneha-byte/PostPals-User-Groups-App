@@ -1,25 +1,29 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Members</title>
-    <link rel="stylesheet" href="/styles.css">
+    <meta charset="UTF-8">
+    <title>PostPals - Home</title>
+	<link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <h1>All Members</h1>
+    <header>
+        <div class="logo">PostPals</div>
+    </header>
 
-    <form method="get" action="/members">
-        <input type="text" name="search" placeholder="Search by name">
-        <button type="submit">Search</button>
-    </form>
+    <main>
+        <section class="hero">
+            <h1>Welcome to PostPals</h1>
+            <p>Connect with your group. Share updates. Stay in the loop.</p>
+            <div class="buttons">
+				<a href="/login" class="btn">Log In</a>
+                <a href="signup.jsp" class="btn btn-secondary">Sign Up</a>
+            </div>
+        </section>
+    </main>
 
-    <ul>
-        <c:forEach var="user" items="${users}">
-            <li>
-                Name: ${user.name}, Email: ${user.email}
-            </li>
-        </c:forEach>
-    </ul>
+    <footer>
+        <p>© 2025 PostPals. All rights reserved.</p>
+    </footer>
 </body>
 </html>

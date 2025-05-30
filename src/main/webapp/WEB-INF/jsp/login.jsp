@@ -15,11 +15,11 @@
         <section class="hero">
             <h1>Log In</h1>
             <form action="login" method="post" class="login-form">
-                <label for="username"> userName:</label>
-                <input type="text" id="username" name="username" required>
+                <label for="name"> userName:</label>
+                <input type="text" id="name" name="name" required>
 
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+                <label for="email">Password:</label>
+                <input type="email" id="email" name="email" required>
 
                 <button type="submit" class="btn">Log In</button>
             </form>

@@ -15,15 +15,16 @@ public class GroupMembershipController {
     @Autowired
     private MembershipService membershipService;
 
+    
 
     @PostMapping("/add")
-    public String addUserToGroup(@RequestParam Long userId, @RequestParam Long groupId, @RequestParam String role) {
+    public String addUserToGroup(@RequestParam(value="userId") Long userId, @RequestParam(value="groupId") Long groupId, @RequestParam(value="role") String role) {
         userService.addUserToGroupWithRole(userId, groupId, role);
         return "User added with role " + role;
     }
 
     @PostMapping("/leave")
-    public String leaveGroup(@RequestParam Long userId, @RequestParam Long groupId) {
+    public String leaveGroup(@RequestParam(value="userId") Long userId, @RequestParam(value="groupId") Long groupId, @RequestParam(value="role") String role) {
         userService.removeUserFromGroup(userId, groupId);
         return "User left group";
     }

@@ -28,11 +28,11 @@ public class HomeController {
     }
     
     @GetMapping("/members")
-    public String showMembersPage(@RequestParam(required = false) String search, ModelMap model) {
+    public String showMembersPage(@RequestParam(required = false) String search, ModelMap sample) {
         if (search != null && !search.isEmpty()) {
-            model.addAttribute("users", userService.findByName(search));
+            sample.addAttribute("users", userService.findByName(search));
         } else {
-            model.addAttribute("users", userService.findAllUsers());
+            sample.addAttribute("users", userService.findAllUsers());
         }
         return "members";
     }

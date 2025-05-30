@@ -86,11 +86,20 @@
 			<artifactId>glassfish-jstl</artifactId>
 			<version>11.0.25</version>
 		</dependency>
-		
+
+
 		<dependency>
 			<groupId>jakarta.servlet.jsp.jstl</groupId>
 			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
 		</dependency>
+
+    <!-- JSP Support -->
+    <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-jasper</artifactId>
+    </dependency>
+
+
 
 	</dependencies>
 
