@@ -74,6 +74,15 @@ public class UserService {
     	return userRepository.findAll();
     }
     
+    public boolean authenticateUser(String name, String password) {
+        User user = userRepository.findTopByName(name);
+        if (user == null) {
+            return false;
+        }
+        return user.getPassword().equals(password);
+    }
+
+    
     public void addUserToGroupWithRole(Long userId, Long groupId, String role) {
         
         try {

@@ -14,8 +14,9 @@ public class User {
     private String name;
     private String email;
 
+    private String password; 
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    
     private Set<Membership> memberships = new HashSet<>();
 
     // Getters and Setters
@@ -43,6 +44,14 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() { // 👈 Add this
+        return password;
+    }
+
+    public void setPassword(String password) { // 👈 And this
+        this.password = password;
+    }
+
     public Set<Membership> getMemberships() {
         return memberships;
     }
@@ -51,3 +60,4 @@ public class User {
         this.memberships = memberships;
     }
 }
+

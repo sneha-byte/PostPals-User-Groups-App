@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.h2.H2ConsoleProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,10 +32,21 @@ public class HomeController {
         return "home";
     }
     
-    @GetMapping("/login")
-    public String showLoginPage() {
-        return "login"; 
+    @PostMapping("/login")
+    public String handleLogin(@RequestParam String name, @RequestParam String password, ModelMap sample) {
+
+        boolean isAuthenticated = userService.authenticateUser(name, password);
+
+        if (isAuthenticated) {
+            sample.addAttribute("key", userService.getByUsername(name));
+            return "redirect:/groups";  
+        } else {
+            sample.addAttribute("error", "Invalid username or password");
+            return "login";  
+        }
     }
+
+
     
     @GetMapping("/groups")
     public String showGroupsPage(ModelMap sample) {
