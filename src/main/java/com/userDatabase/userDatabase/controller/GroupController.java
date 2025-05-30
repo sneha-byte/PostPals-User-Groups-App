@@ -21,7 +21,7 @@ public class GroupController {
 
     @GetMapping("")
     public List<Group> getAllGroups() {
-        return groupService.getAllGroups();
+        return groupService.findAllGroups();
     }
 
     @DeleteMapping("/{id}")

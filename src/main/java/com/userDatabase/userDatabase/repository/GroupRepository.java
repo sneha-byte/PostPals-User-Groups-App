@@ -1,9 +1,12 @@
 package com.userDatabase.userDatabase.repository;
 
-import com.userDatabase.userDatabase.model.Group;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import com.userDatabase.userDatabase.model.Group;
 
-
+@Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
-    Group findByName(String name);
+    List<Group> findByNameContaining(String name);
 }
