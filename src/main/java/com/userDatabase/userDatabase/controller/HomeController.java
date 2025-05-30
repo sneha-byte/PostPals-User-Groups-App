@@ -1,12 +1,18 @@
 package com.userDatabase.userDatabase.controller;
 
+import java.io.Console;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.h2.H2ConsoleProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.userDatabase.userDatabase.model.User;
 import com.userDatabase.userDatabase.service.UserService;
 
 @Controller
@@ -27,13 +33,11 @@ public class HomeController {
         return "login"; 
     }
     
+    
     @GetMapping("/members")
-    public String showMembersPage(@RequestParam(required = false) String search, ModelMap sample) {
-        if (search != null && !search.isEmpty()) {
-            sample.addAttribute("users", userService.findByName(search));
-        } else {
-            sample.addAttribute("users", userService.findAllUsers());
-        }
+    public String showMembersPage(ModelMap sample) {
+        List<User> users = userService.findAllUsers();
+        sample.addAttribute("users", users);
         return "members";
     }
 }
