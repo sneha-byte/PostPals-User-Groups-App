@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="com.userDatabase.userDatabase.model.Group" %>
 <!DOCTYPE html>
 <html>
@@ -8,110 +9,149 @@
     <title>PostPals - Groups</title>
     <link rel="stylesheet" href="/styles.css">
     <style>
-        body {
+        /* Reset + Base Styling */
+        * {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
+            box-sizing: border-box;
+            font-family: 'Segoe UI';
         }
-        
-        /* Header with navigation */
+
+        :root {
+            --pink: #FFDCDC;
+            --peach: #FFF2EB;
+            --beige: #FFE8CD;
+            --orange: #FFD6BA;
+            --text-dark: #333;
+            --text-muted: #555;
+        }
+
+        /* Body */
+        body {
+            background-color: var(--peach);
+            color: var(--text-dark);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Header */
         header {
-            background-color: #333;
-            color: white;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: var(--pink);
+            padding: 1em 2em;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
-        
+
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.5em;
             font-weight: bold;
+            color: var(--text-dark);
         }
-        
+
         .nav-buttons {
             display: flex;
             gap: 1rem;
         }
-        
+
         .nav-btn {
-            background-color: #4a6bdf;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
+            background-color: var(--orange);
+            color: var(--text-dark);
+            padding: 0.7em 1.5em;
+            border: none;
+            border-radius: 5px;
             text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.2s;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
-        
+
         .nav-btn:hover {
-            background-color: #3a5bcf;
+            background-color: #ffc09f;
         }
-        
+
         .nav-btn.active {
-            background-color: #2a4bbf;
+            background-color: #ff80c0;
         }
-        
-        /* Main content */
+
+        /* Main Content */
         main {
+            margin-top: 2em;
             padding: 2rem;
-            min-height: calc(100vh - 120px);
         }
-        
+
         .page-title {
             text-align: center;
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 1.5em;
+            color: var(--text-dark);
         }
-        
-        .groups-table {
-            width: 100%;
+
+        /* Table Container */
+        .table-container {
+            background-color: var(--beige);
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        .groups-table {
+            width: 100%;
             border-collapse: collapse;
-            background: white;
-            border-radius: 8px;
+            background-color: white;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-        
-        .groups-table th,
-        .groups-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        
+
         .groups-table th {
-            background-color: #333;
-            color: white;
-            font-weight: 600;
+            background-color: var(--orange);
+            color: var(--text-dark);
+            padding: 1.2em;
+            text-align: left;
+            font-weight: bold;
+            font-size: 1.1em;
         }
-        
+
+        .groups-table td {
+            padding: 1em 1.2em;
+            border-bottom: 1px solid #f0f0f0;
+            color: var(--text-dark);
+        }
+
+        .groups-table tr:nth-child(even) {
+            background-color: var(--peach);
+        }
+
         .groups-table tr:hover {
-            background-color: #f8f9fa;
+            background-color: var(--pink);
+            transition: background-color 0.2s ease;
         }
-        
+
         .groups-table tr:last-child td {
             border-bottom: none;
         }
-        
+
         .no-groups {
             text-align: center;
-            padding: 2rem;
-            color: #666;
+            padding: 3em;
+            color: var(--text-muted);
+            font-size: 1.2em;
+            background-color: var(--peach);
         }
-        
+
         /* Footer */
         footer {
+            background-color: var(--orange);
+            padding: 1.5em 0;
             text-align: center;
-            padding: 1.5rem;
-            background-color: #333;
-            color: white;
-            margin-top: auto;
+            color: var(--text-dark);
+            margin-top: 3em;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
     </style>
 </head>
@@ -128,41 +168,35 @@
 
     <main>
         <h1 class="page-title">Groups</h1>
-        <table class="groups-table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Group Name</th>
-                    <th>Members</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%
-                    @SuppressWarnings("unchecked")
-                    List<Group> groups = (List<Group>) request.getAttribute("groups");
-                    
-                    if (groups != null && !groups.isEmpty()) {
-                        for (int i = 0; i < groups.size(); i++) {
-                            Group group = groups.get(i);
-                            int memberCount = group.getMemberships() != null ? group.getMemberships().size() : 0;
-                %>
+        <div class="table-container">
+            <table class="groups-table">
+                <thead>
                     <tr>
-                        <td><%= i + 1 %></td>
-                        <td><%= group.getName() != null ? group.getName() : "N/A" %></td>
-                        <td><%= memberCount %> members</td>
+                        <th>#</th>
+                        <th>Group Name</th>
+                        <th>Members</th>
                     </tr>
-                <%
-                        }
-                    } else {
-                %>
-                    <tr>
-                        <td colspan="3" class="no-groups">No groups found</td>
-                    </tr>
-                <%
-                    }
-                %>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <c:choose>
+                        <c:when test="${not empty groups}">
+                            <c:forEach var="group" items="${groups}" varStatus="status">
+                                <tr>
+                                    <td>${status.index + 1}</td>
+                                    <td><c:out value="${group.name != null ? group.name : 'N/A'}" /></td>
+                                    <td><c:out value="${group.memberships.size()} members" /></td>
+                                </tr>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <tr>
+                                <td colspan="3" class="no-groups">No groups found</td>
+                            </tr>
+                        </c:otherwise>
+                    </c:choose>
+                </tbody>
+            </table>
+        </div>
     </main>
 
     <footer>
