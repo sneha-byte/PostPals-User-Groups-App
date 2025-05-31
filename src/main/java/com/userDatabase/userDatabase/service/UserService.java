@@ -48,18 +48,23 @@ public class UserService {
 
 
     public void update(Long id, User updatedUser) {
-        User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    	try {
+    		User existingUser = userRepository.findById(id).get();
 
-        existingUser.setName(updatedUser.getName());
-        existingUser.setEmail(updatedUser.getEmail());
+            existingUser.setName(updatedUser.getName());
+            existingUser.setEmail(updatedUser.getEmail());
 
-        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
-            String hashedPassword = passwordEncoder.encode(updatedUser.getPassword());
-            existingUser.setPassword(hashedPassword);
-        }
-
-        userRepository.save(existingUser);
+            if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
+                String hashedPassword = passwordEncoder.encode(updatedUser.getPassword());
+                existingUser.setPassword(hashedPassword);
+            }
+            userRepository.save(existingUser);
+    	}
+    	
+    	catch(Exception e) {
+        	new RuntimeException("Group or user not found");
+    	}
+        
     }
     
     public User getByUsername(String name) {
