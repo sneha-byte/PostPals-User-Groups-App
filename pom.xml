@@ -75,6 +75,11 @@
 		    <scope>provided</scope>
 		</dependency>
 		
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		</dependency>
+		
 		<!-- Jakarta JSTL implementation -->
 		<dependency>
 		    <groupId>org.glassfish.web</groupId>

@@ -10,6 +10,7 @@ import com.userDatabase.userDatabase.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,8 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
     
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Autowired
     private MembershipRepository membershipRepository;
 
@@ -42,13 +45,21 @@ public class UserService {
         return userOptional.get();
     }
 
+
+
     public void update(Long id, User updatedUser) {
-        User existingUser = userRepository.findById(id).orElse(null);
-        if (existingUser != null) {
-            existingUser.setName(updatedUser.getName());
-            existingUser.setEmail(updatedUser.getEmail());
-            userRepository.save(existingUser);
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        existingUser.setName(updatedUser.getName());
+        existingUser.setEmail(updatedUser.getEmail());
+
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
+            String hashedPassword = passwordEncoder.encode(updatedUser.getPassword());
+            existingUser.setPassword(hashedPassword);
         }
+
+        userRepository.save(existingUser);
     }
     
     public User getByUsername(String name) {
@@ -76,10 +87,7 @@ public class UserService {
     
     public boolean authenticateUser(String name, String password) {
         User user = userRepository.findTopByName(name);
-        if (user == null) {
-            return false;
-        }
-        return user.getPassword().equals(password);
+        return user != null && passwordEncoder.matches(password, user.getPassword());
     }
 
     
@@ -101,15 +109,14 @@ public class UserService {
     }
 
     public void removeUserFromGroup(Long userId, Long groupId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        
-        Group group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new RuntimeException("Group not found"));
-
-        Membership membership = membershipRepository.findByUserAndGroup(user, group)
-                .orElseThrow(() -> new RuntimeException("Membership not found"));
-
-        membershipRepository.delete(membership);
+    	try {
+    		User user = userRepository.findById(userId).get();
+	        Group group = groupRepository.findById(groupId).get();
+	        Membership membership = membershipRepository.findByUserAndGroup(user, group).get();
+	        membershipRepository.delete(membership);
+    	}
+    	catch(Exception e) {
+        	new RuntimeException("Group or user not found");
+    	}
     }
 }
