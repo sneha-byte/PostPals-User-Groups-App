@@ -17,7 +17,7 @@
             <p>Connect with your group. Share updates. Stay in the loop.</p>
             <div class="buttons">
 				<a href="/login" class="btn">Log In</a>
-                <a href="signup.jsp" class="btn btn-secondary">Sign Up</a>
+                <a href="/signup" class="btn btn-secondary">Sign Up</a>
             </div>
         </section>
     </main>

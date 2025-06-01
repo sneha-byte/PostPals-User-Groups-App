@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login - PostPals</title>
+    <title>Sign Up - PostPals</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -13,18 +13,21 @@
 
     <main>
         <section class="hero">
-            <h1>Log In</h1>
-            <form action="login" method="post" class="login-form">
-                <label for="name"> userName:</label>
+            <h1>Sign Up</h1>
+            <form action="/signup" method="post" class="signup-form">
+                <label for="name">Username:</label>
                 <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
 
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
 
-                <button type="submit" class="btn">Log In</button>
+                <button type="submit" class="btn">Sign Up</button>
             </form>
-            <p>Don't have an account? <a href="/signup">Sign Up</a></p>
-            
+
+           
         </section>
     </main>
 

@@ -32,21 +32,49 @@ public class HomeController {
         return "home";
     }
     
+    //GET method because user needs to use /login to see the login page
+    @GetMapping("/login")
+    public String showLoginPage() {
+        return "login"; 
+    }
+
+    //POST method because the form sends a post request to /login
     @PostMapping("/login")
-    public String handleLogin(@RequestParam String name, @RequestParam String password, ModelMap sample) {
+    public String handleLogin(@RequestParam String name, @RequestParam String password,ModelMap sample) {
 
         boolean isAuthenticated = userService.authenticateUser(name, password);
 
         if (isAuthenticated) {
-            sample.addAttribute("key", userService.getByUsername(name));
-            return "redirect:/groups";  
+        	sample.addAttribute("key", userService.getByUsername(name));
+            return "redirect:/groups"; 
         } else {
-            sample.addAttribute("error", "Invalid username or password");
-            return "login";  
+        	sample.addAttribute("error", "Invalid username or password");
+            return "login"; 
         }
     }
+    
+    @GetMapping("/signup")
+    public String showSignupPage() {
+        return "signup";
+    }
 
+    @PostMapping("/signup")
+    public String handleSignup(@RequestParam String name, @RequestParam String email,@RequestParam String password,ModelMap sample) {
 
+        if (userService.getByUsername(name) != null) {
+            sample.addAttribute("error", "Username already exists!");
+            return "signup";
+        }
+
+        User newUser = new User();
+        newUser.setName(name);
+        newUser.setEmail(email);
+        newUser.setPassword(password); 
+
+        userService.create(newUser);
+        sample.addAttribute("success", "User registered successfully! Please log in.");
+        return "login";
+    }
     
     @GetMapping("/groups")
     public String showGroupsPage(ModelMap sample) {
