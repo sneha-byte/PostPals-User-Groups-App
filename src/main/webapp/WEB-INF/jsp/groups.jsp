@@ -162,7 +162,8 @@
         <nav class="nav-buttons">
             <a href="/home" class="nav-btn">Home</a>
             <a href="/members" class="nav-btn">Users</a>
-            <a href="/groups" class="nav-btn active">Groups</a>
+            <a href="/groups" class="nav-btn">Groups</a>
+            <a href="/myGroups" class = "nav-btn">My Groups</a>
         </nav>
     </header>
 
