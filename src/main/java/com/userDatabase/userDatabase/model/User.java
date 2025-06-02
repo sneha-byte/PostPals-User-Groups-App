@@ -19,7 +19,19 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Membership> memberships = new HashSet<>();
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Post> posts = new HashSet<>();
+
     // Getters and Setters
+
+    public Set<Post> getPosts() { 
+    	return posts; 
+    }
+    
+    public void setPosts(Set<Post> posts) { 
+    	this.posts = posts; 
+    }
+    
     public Long getId() {
         return id;
     }

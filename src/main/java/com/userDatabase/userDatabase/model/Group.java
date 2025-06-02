@@ -18,7 +18,19 @@ public class Group {
     
     private Set<Membership> memberships = new HashSet<>();
 
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Post> posts = new HashSet<>();
+
     // Getters and Setters
+
+    public Set<Post> getPosts() { 
+    	return posts; 
+    }
+    
+    public void setPosts(Set<Post> posts) { 
+    	this.posts = posts; 
+    }
+
     public Long getId() {
         return id;
     }

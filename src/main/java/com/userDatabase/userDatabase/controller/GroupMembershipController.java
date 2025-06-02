@@ -18,9 +18,12 @@ public class GroupMembershipController {
     
 
     @PostMapping("/add")
-    public String addUserToGroup(@RequestParam(value="userId") Long userId, @RequestParam(value="groupId") Long groupId, @RequestParam(value="role") String role) {
+    public String addUserToGroup(
+            @RequestParam Long userId,
+            @RequestParam Long groupId,
+            @RequestParam String role) {
         userService.addUserToGroupWithRole(userId, groupId, role);
-        return "User added with role " + role;
+        return "redirect:/groups/" + groupId; 
     }
 
     @PostMapping("/leave")
