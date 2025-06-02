@@ -14,17 +14,25 @@
     <main>
         <section class="hero">
             <h1>Log In</h1>
+
             <form action="login" method="post" class="login-form">
-                <label for="name"> userName:</label>
-                <input type="text" id="name" name="name" required>
+                <div class="form-group">
+                    <label for="name">Username:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
 
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
 
-                <button type="submit" class="btn">Log In</button>
+                <button type="submit" class="btn btn-primary">Log In</button>
             </form>
-            <p>Don't have an account? <a href="/signup">Sign Up</a></p>
-            
+
+			<p class="signup-prompt">
+				Don't have an account? 
+				<a href="/signup">Sign Up</a>
+			</p>
         </section>
     </main>
 

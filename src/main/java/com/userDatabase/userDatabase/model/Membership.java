@@ -18,6 +18,7 @@ public class Membership {
     @JoinColumn(name = "group_id")
     private Group group;
 
+    @Column(name = "role")
     private String role;
 
 	public User getUser() {

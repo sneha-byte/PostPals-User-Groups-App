@@ -14,20 +14,28 @@
     <main>
         <section class="hero">
             <h1>Sign Up</h1>
-            <form action="/signup" method="post" class="signup-form">
-                <label for="name">Username:</label>
-                <input type="text" id="name" name="name" required>
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-
-                <button type="submit" class="btn">Sign Up</button>
-            </form>
-
-           
+         
+			<form action="/signup" method="post" class="signup-form">
+			    <div class="form-group">
+			        <label for="name">Username:</label>
+			        <input type="text" id="name" name="name">
+			    </div>
+			
+			    <div class="form-group">
+			        <label for="email">Email:</label>
+			        <input type="email" id="email" name="email">
+			    </div>
+			
+			    <div class="form-group">
+			        <label for="password">Password:</label>
+			        <input type="password" id="password" name = "password">
+			    </div>
+			
+			    <button type="submit" class="btn btn-primary">Sign Up</button>
+			</form>
+            <p class="signup-prompt">
+                Already have an account? <a href="/login">Log In</a>
+            </p>
         </section>
     </main>
 

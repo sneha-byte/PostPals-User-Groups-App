@@ -1,4 +1,4 @@
-/* Reset + Base Styling */
+/* ========== Reset + Base Styling ========== */
 * {
     margin: 0;
     padding: 0;
@@ -11,18 +11,20 @@
     --peach: #FFF2EB;
     --beige: #FFE8CD;
     --orange: #FFD6BA;
+    --orange-dark: #ffb88c;
+    --orange-darker: #ffa870;
     --text-dark: #333;
     --text-muted: #555;
 }
 
-/* Body */
+/* ========== Body ========== */
 body {
     background-color: var(--peach);
     color: var(--text-dark);
     padding: 20px;
 }
 
-/* Header */
+/* ========== Header ========== */
 header {
     background-color: var(--pink);
     padding: 1em 2em;
@@ -37,6 +39,7 @@ header {
     color: var(--text-dark);
 }
 
+/* ========== Navigation (if used) ========== */
 nav ul {
     list-style: none;
     display: flex;
@@ -53,13 +56,13 @@ nav a:hover {
     color: var(--text-muted);
 }
 
-/* Hero Section */
+/* ========== Hero Section ========== */
 .hero {
     background-color: var(--beige);
     padding: 4em 2em;
     text-align: center;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     margin-top: 2em;
 }
 
@@ -74,7 +77,41 @@ nav a:hover {
     margin-bottom: 1.5em;
 }
 
-/* Buttons */
+/* ========== Forms ========== */
+.login-form,
+.signup-form {
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto 1.5em auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.3em;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.6em 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+/* ========== Buttons ========== */
 .buttons {
     display: flex;
     justify-content: center;
@@ -90,10 +127,19 @@ nav a:hover {
     text-decoration: none;
     font-weight: bold;
     transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
 .btn:hover {
-    background-color: #ffc09f; /* slightly darker orange */
+    background-color: #ffc09f;
+}
+
+.btn-primary {
+    background-color: var(--orange-dark);
+}
+
+.btn-primary:hover {
+    background-color: var(--orange-darker);
 }
 
 .btn-secondary {
@@ -101,11 +147,32 @@ nav a:hover {
 }
 
 .btn-secondary:hover {
-	background-color: #ff80c0
+    background-color: #ff80c0;
 }
 
+/* ========== Sign-Up Prompt ========== */
+.signup-prompt {
+    margin-top: 1.5em;
+    font-size: 1em;
+    color: var(--text-muted);
+    text-align: center;
+    font-family: inherit;
+}
+
+.signup-prompt a {
+    font-weight: bold;
+    color: var(--text-dark);
+    text-decoration: underline;
+    font-family: inherit;
+}
+
+.signup-prompt a:hover {
+    color: #555;
+}
+
+/* ========== Footer ========== */
 footer {
-    background-color: #FFD6BA; /* soft peach */
+    background-color: #FFD6BA;
     padding: 1.5em 0;
     text-align: center;
     color: var(--text-dark);

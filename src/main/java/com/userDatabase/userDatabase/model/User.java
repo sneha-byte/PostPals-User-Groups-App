@@ -44,11 +44,11 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() { // 👈 Add this
+    public String getPassword() { 
         return password;
     }
 
-    public void setPassword(String password) { // 👈 And this
+    public void setPassword(String password) { 
         this.password = password;
     }
 

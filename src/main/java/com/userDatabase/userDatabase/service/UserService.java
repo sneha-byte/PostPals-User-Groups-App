@@ -30,6 +30,10 @@ public class UserService {
     private GroupRepository groupRepository;
 
     public void create(User user) {
+        // Check if password is already encrypted 
+        if (!user.getPassword().startsWith("$2a$")) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         userRepository.save(user);
     }
 
@@ -44,8 +48,6 @@ public class UserService {
     	}
         return userOptional.get();
     }
-
-
 
     public void update(Long id, User updatedUser) {
     	try {
@@ -64,7 +66,6 @@ public class UserService {
     	catch(Exception e) {
         	new RuntimeException("Group or user not found");
     	}
-        
     }
     
     public User getByUsername(String name) {

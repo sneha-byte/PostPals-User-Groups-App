@@ -127,7 +127,7 @@
         }
 
         .members-table tr:hover {
-            background-color: var(--pink);
+            background-color: var(--orange);
             transition: background-color 0.2s ease;
         }
 
@@ -161,7 +161,7 @@
         <div class="logo">PostPals</div>
         <nav class="nav-buttons">
             <a href="/home" class="nav-btn">Home</a>
-            <a href="/members" class="nav-btn active">Users</a>
+            <a href="/members" class="nav-btn">Users</a>
             <a href="/groups" class="nav-btn">Groups</a>
         </nav>
     </header>
