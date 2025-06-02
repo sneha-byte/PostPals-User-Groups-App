@@ -14,21 +14,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.userDatabase.userDatabase.model.*;
+import com.userDatabase.userDatabase.repository.GroupRepository;
+import com.userDatabase.userDatabase.repository.MembershipRepository;
+import com.userDatabase.userDatabase.repository.UserRepository;
 import com.userDatabase.userDatabase.service.*;
 
 @Controller
 @RequestMapping("")
 public class HomeController {
-
-	@Autowired
-	private UserService userService; 
 	
 	@Autowired
-	private GroupService groupService; 
+	private GroupRepository groupRepository;
+
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private MembershipRepository membershipRepository;
 	
     @GetMapping("/home")
     public String getHomePage(ModelMap sample) {
-    	sample.addAttribute("key", userService.getByUsername("sample-user")); 
+    	sample.addAttribute("key", UserService.getByUsername("sample-user")); 
         return "home";
     }
     
@@ -42,10 +48,10 @@ public class HomeController {
     @PostMapping("/login")
     public String handleLogin(@RequestParam String name, @RequestParam String password,ModelMap sample) {
 
-        boolean isAuthenticated = userService.authenticateUser(name, password);
+        boolean isAuthenticated = UserService.authenticateUser(name, password);
 
         if (isAuthenticated) {
-        	sample.addAttribute("key", userService.getByUsername(name));
+        	sample.addAttribute("key", UserService.getByUsername(name));
             return "redirect:/groups"; 
         } else {
         	sample.addAttribute("error", "Invalid username or password");
@@ -61,7 +67,7 @@ public class HomeController {
     @PostMapping("/signup")
     public String handleSignup(@RequestParam String name, @RequestParam String email,@RequestParam String password,ModelMap sample) {
 
-        if (userService.getByUsername(name) != null) {
+        if (UserService.getByUsername(name) != null) {
             sample.addAttribute("error", "Username already exists!");
             return "signup";
         }
@@ -71,22 +77,39 @@ public class HomeController {
         newUser.setEmail(email);
         newUser.setPassword(password); 
 
-        userService.create(newUser);
+        UserService.create(newUser);
         sample.addAttribute("success", "User registered successfully! Please log in.");
         return "login";
     }
     
     @GetMapping("/groups")
     public String showGroupsPage(ModelMap sample) {
-        List<Group> groups = groupService.findAllGroups();
+        List<Group> groups = GroupService.findAllGroups();
         sample.addAttribute("groups", groups);
         return "groups";
     }
     
     @GetMapping("/members")
     public String showMembersPage(ModelMap sample) {
-        List<User> users = userService.findAllUsers();
+        List<User> users = UserService.findAllUsers();
         sample.addAttribute("users", users);
         return "members";
     }
+    
+    @PostMapping("/groups/join")
+    public String joinGroup(@RequestParam Long groupId, @RequestParam Long userId) {
+        Group group = groupRepository.findById(groupId).orElse(null);
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (group != null && user != null) {
+            Membership membership = new Membership();
+            membership.setGroup(group);
+            membership.setUser(user);
+            membership.setRole("member");
+            membershipRepository.save(membership);
+        }
+
+        return "redirect:/groups/" + groupId;
+    }
+
 }

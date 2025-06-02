@@ -15,8 +15,6 @@ public class GroupMembershipController {
     @Autowired
     private MembershipService membershipService;
 
-    
-
     @PostMapping("/add")
     public String addUserToGroup(
             @RequestParam Long userId,
