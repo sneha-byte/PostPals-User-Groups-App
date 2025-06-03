@@ -208,10 +208,7 @@
                             </tr>
                         </c:otherwise>
                     </c:choose>
-                    <form action="/my-groups" method="get">
-					    <input type="hidden" name="userId" value="${key.id}" />
-					    <button type="submit">My Groups</button>
-					</form>
+                   
                 </tbody>
             </table>
         </div>

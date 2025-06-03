@@ -15,13 +15,12 @@ public class GroupMembershipController {
     @Autowired
     private MembershipService membershipService;
 
-    @PostMapping("/add")
-    public String addUserToGroup(
-            @RequestParam Long userId,
-            @RequestParam Long groupId,
-            @RequestParam String role) {
+    @PostMapping("/membership/add")
+    public String addMembership(@RequestParam Long userId,
+                                @RequestParam Long groupId,
+                                @RequestParam String role) {
         userService.addUserToGroupWithRole(userId, groupId, role);
-        return "redirect:/groups/" + groupId; 
+        return "redirect:/myGroups?userId=" + userId;
     }
 
     @PostMapping("/leave")
