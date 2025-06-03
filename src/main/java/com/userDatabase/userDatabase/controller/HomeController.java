@@ -117,5 +117,13 @@ public class HomeController {
 
         return "redirect:/groups/" + groupId;
     }
+    
+    @GetMapping("/my-groups")
+    public String showMyGroupsPage(@RequestParam Long userId, ModelMap model) {
+        List<Group> myGroups = userService.getGroupsForUser(userId);
+        model.addAttribute("groups", myGroups);
+        model.addAttribute("userId", userId); 
+        return "my-groups";
+    }
 
 }
