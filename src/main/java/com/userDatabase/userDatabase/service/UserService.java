@@ -41,6 +41,16 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<Group> getGroupsForUser(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) return List.of();
+        
+        List<Membership> memberships = membershipRepository.findByUser(user);
+        return memberships.stream()
+                          .map(Membership::getGroup)
+                          .toList();
+    }
+    
     public User getById(Long id) {
     	Optional<User> userOptional = userRepository.findById(id);
     	if (userOptional.isEmpty()) {
