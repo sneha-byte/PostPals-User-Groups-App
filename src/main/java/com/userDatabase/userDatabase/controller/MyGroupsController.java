@@ -5,6 +5,9 @@ import com.userDatabase.userDatabase.model.Membership;
 import com.userDatabase.userDatabase.model.User;
 import com.userDatabase.userDatabase.repository.MembershipRepository;
 import com.userDatabase.userDatabase.repository.UserRepository;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,15 +27,15 @@ public class MyGroupsController {
     private MembershipRepository membershipRepository;
 
     @GetMapping("/my-groups")
-    public String viewMyGroups(@RequestParam Long userId, Model sample) {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+    public String showMyGroups(HttpSession session, Model sample) {
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
 
-        List<Membership> memberships = membershipRepository.findByUser(user);
-
-        sample.addAttribute("user", user);
+        List<Membership> memberships = membershipRepository.findByUser(loggedInUser);
+        sample.addAttribute("user", loggedInUser);
         sample.addAttribute("memberships", memberships);
         return "my-groups";
     }
-
 }

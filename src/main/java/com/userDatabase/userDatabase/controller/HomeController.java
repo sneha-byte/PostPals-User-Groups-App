@@ -39,11 +39,12 @@ public class HomeController {
     // Home page (requires login)
     @GetMapping("/home")
     public String getHomePage(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("loggedInUser");
-        if (user == null) return "redirect:/login";
-
-        model.addAttribute("user", user);
-        return "home";
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            return "login";
+        }
+        model.addAttribute("user", loggedInUser);
+        return "groups";
     }
 
     // Show login form
@@ -57,14 +58,13 @@ public class HomeController {
     public String login(@RequestParam String name,
                         @RequestParam String password,
                         HttpSession session,
-                        Model model) {
-
+                        Model sample) {
         User user = userRepository.findTopByName(name);
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             session.setAttribute("loggedInUser", user);
-            return "redirect:/home";
+            return "groups";
         } else {
-            model.addAttribute("error", "Invalid credentials");
+            sample.addAttribute("error", "Invalid credentials");
             return "login";
         }
     }
@@ -100,24 +100,27 @@ public class HomeController {
     // Show all groups
     @GetMapping("/groups")
     public String showGroupsPage(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("loggedInUser");
-        if (user == null) return "redirect:/login";
-
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            return "login";
+        }
         List<Group> groups = groupService.findAllGroups();
         model.addAttribute("groups", groups);
-        model.addAttribute("user", user);  // ✅ Makes ${user.id} available
+        model.addAttribute("user", loggedInUser); 
         return "groups";
     }
 
     // Show all members
     @GetMapping("/members")
-    public String showMembersPage(HttpSession session, Model model) {
+    public String showMembersPage(HttpSession session, Model sample) {
         User user = (User) session.getAttribute("loggedInUser");
-        if (user == null) return "redirect:/login";
+        if (user == null) {
+        	return "redirect:/login";
+        }
 
         List<User> users = userService.findAllUsers();
-        model.addAttribute("users", users);
-        model.addAttribute("user", user);
+        sample.addAttribute("users", users);
+        sample.addAttribute("user", user);
         return "members";
     }
 
@@ -138,17 +141,5 @@ public class HomeController {
         }
 
         return "redirect:/groups/" + groupId;
-    }
-
-    // Show groups for a user
-    @GetMapping("/my-groups")
-    public String viewUserGroups(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("loggedInUser");
-        if (user == null) return "redirect:/login";
-
-        List<Membership> memberships = membershipRepository.findByUser(user);
-        model.addAttribute("user", user);
-        model.addAttribute("memberships", memberships);
-        return "my-groups";
     }
 }
