@@ -1,23 +1,18 @@
 package com.userDatabase.userDatabase.controller;
 
-import java.io.Console;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.h2.H2ConsoleProperties;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import com.userDatabase.userDatabase.model.*;
-import com.userDatabase.userDatabase.repository.GroupRepository;
-import com.userDatabase.userDatabase.repository.MembershipRepository;
-import com.userDatabase.userDatabase.repository.UserRepository;
+import com.userDatabase.userDatabase.repository.*;
 import com.userDatabase.userDatabase.service.*;
+
+import jakarta.servlet.http.HttpSession;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Controller
 @RequestMapping("")
@@ -37,73 +32,100 @@ public class HomeController {
 
     @Autowired
     private GroupService groupService;
-	
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    // Home page (requires login)
     @GetMapping("/home")
-    public String getHomePage(ModelMap sample) {
-    	sample.addAttribute("key", userService.getByUsername("sample-user")); 
+    public String getHomePage(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) return "redirect:/login";
+
+        model.addAttribute("user", user);
         return "home";
     }
-    
-    //GET method because user needs to use /login to see the login page
+
+    // Show login form
     @GetMapping("/login")
     public String showLoginPage() {
-        return "login"; 
+        return "login";
     }
 
-    //POST method because the form sends a post request to /login
+    // Handle login
     @PostMapping("/login")
-    public String handleLogin(@RequestParam String name, @RequestParam String password,ModelMap sample) {
+    public String login(@RequestParam String name,
+                        @RequestParam String password,
+                        HttpSession session,
+                        Model model) {
 
-    	boolean isAuthenticated = userService.authenticateUser(name, password);
-
-        if (isAuthenticated) {
-        	sample.addAttribute("key", userService.getByUsername(name));
-            return "redirect:/groups"; 
+        User user = userRepository.findTopByName(name);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            session.setAttribute("loggedInUser", user);
+            return "redirect:/home";
         } else {
-        	sample.addAttribute("error", "Invalid username or password");
-            return "login"; 
+            model.addAttribute("error", "Invalid credentials");
+            return "login";
         }
     }
-    
+
+    // Show signup form
     @GetMapping("/signup")
     public String showSignupPage() {
         return "signup";
     }
 
+    // Handle signup
     @PostMapping("/signup")
-    public String handleSignup(@RequestParam String name, @RequestParam String email,@RequestParam String password,ModelMap sample) {
+    public String handleSignup(@RequestParam String name,
+                               @RequestParam String email,
+                               @RequestParam String password,
+                               Model model) {
 
         if (userService.getByUsername(name) != null) {
-            sample.addAttribute("error", "Username already exists!");
+            model.addAttribute("error", "Username already exists!");
             return "signup";
         }
 
         User newUser = new User();
         newUser.setName(name);
         newUser.setEmail(email);
-        newUser.setPassword(password); 
+        newUser.setPassword(passwordEncoder.encode(password)); // ✅ Hashed password
 
         userService.create(newUser);
-        sample.addAttribute("success", "User registered successfully! Please log in.");
+        model.addAttribute("success", "User registered successfully! Please log in.");
         return "login";
     }
-    
+
+    // Show all groups
     @GetMapping("/groups")
-    public String showGroupsPage(ModelMap sample) {
+    public String showGroupsPage(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) return "redirect:/login";
+
         List<Group> groups = groupService.findAllGroups();
-        sample.addAttribute("groups", groups);
+        model.addAttribute("groups", groups);
+        model.addAttribute("user", user);  // ✅ Makes ${user.id} available
         return "groups";
     }
-    
+
+    // Show all members
     @GetMapping("/members")
-    public String showMembersPage(ModelMap sample) {
+    public String showMembersPage(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) return "redirect:/login";
+
         List<User> users = userService.findAllUsers();
-        sample.addAttribute("users", users);
+        model.addAttribute("users", users);
+        model.addAttribute("user", user);
         return "members";
     }
-    
+
+    // Join a group
     @PostMapping("/groups/join")
-    public String joinGroup(@RequestParam Long groupId, @RequestParam Long userId) {
+    public String joinGroup(@RequestParam Long groupId,
+                            @RequestParam Long userId) {
+
         Group group = groupRepository.findById(groupId).orElse(null);
         User user = userRepository.findById(userId).orElse(null);
 
@@ -117,13 +139,16 @@ public class HomeController {
 
         return "redirect:/groups/" + groupId;
     }
-    
+
+    // Show groups for a user
     @GetMapping("/my-groups")
-    public String showMyGroupsPage(@RequestParam Long userId, ModelMap model) {
-        List<Group> myGroups = userService.getGroupsForUser(userId);
-        model.addAttribute("groups", myGroups);
-        model.addAttribute("userId", userId); 
+    public String viewUserGroups(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) return "redirect:/login";
+
+        List<Membership> memberships = membershipRepository.findByUser(user);
+        model.addAttribute("user", user);
+        model.addAttribute("memberships", memberships);
         return "my-groups";
     }
-
 }

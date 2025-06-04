@@ -163,7 +163,7 @@
             <a href="/home" class="nav-btn">Home</a>
             <a href="/members" class="nav-btn">Users</a>
             <a href="/groups" class="nav-btn">Groups</a>
-            <a href="/myGroups" class = "nav-btn">My Groups</a>
+			<a href="my-groups?userId=${user.id}" class="nav-btn">My Groups</a>
         </nav>
     </header>
 

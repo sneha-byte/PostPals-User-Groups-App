@@ -27,7 +27,11 @@ public class Post {
         createdAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
+	// Getters and Setters
+    public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
     public Long getId() { 
     	return id; 
     }
