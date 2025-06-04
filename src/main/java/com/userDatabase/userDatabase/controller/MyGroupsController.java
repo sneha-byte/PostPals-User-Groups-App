@@ -20,7 +20,7 @@ public class MyGroupsController {
     private UserService userService;
 
     @GetMapping("/myGroups")
-    public String showMyGroups(@RequestParam Long userId, Model model) {
+    public String showMyGroups(@RequestParam Long userId, Model sample) {
         User user = userService.getById(userId);
 
         List<Group> myGroups = user.getMemberships()
@@ -28,8 +28,8 @@ public class MyGroupsController {
                                    .map(Membership::getGroup)
                                    .collect(Collectors.toList());
 
-        model.addAttribute("myGroups", myGroups);
-        model.addAttribute("user", user); 
+        sample.addAttribute("myGroups", myGroups);
+        sample.addAttribute("user", user); 
         return "my-groups";
     }
 }

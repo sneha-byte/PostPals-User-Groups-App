@@ -105,34 +105,4 @@ public class UserService {
         User user = userRepository.findTopByName(name);
         return user != null && passwordEncoder.matches(password, user.getPassword());
     }
-
-    
-    public void addUserToGroupWithRole(Long userId, Long groupId, String role) {
-        
-        try {
-        	User user = userRepository.findById(userId).get(); 
-        	Group group = groupRepository.findById(groupId).get(); 
-        	Membership membership = new Membership();
-            membership.setUser(user);
-            membership.setGroup(group);
-            membership.setRole(role);
-            
-            membershipRepository.save(membership);  
-        }
-        catch(Exception e) {
-        	new RuntimeException("Group or user not found");
-        }        
-    }
-
-    public void removeUserFromGroup(Long userId, Long groupId) {
-    	try {
-    		User user = userRepository.findById(userId).get();
-	        Group group = groupRepository.findById(groupId).get();
-	        Membership membership = membershipRepository.findByUserAndGroup(user, group).get();
-	        membershipRepository.delete(membership);
-    	}
-    	catch(Exception e) {
-        	new RuntimeException("Group or user not found");
-    	}
-    }
 }

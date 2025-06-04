@@ -29,6 +29,11 @@ public class MembershipService {
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("Group not found"));
 
+        boolean exists = membershipRepository.findByUserAndGroup(user, group).isPresent();
+        if (exists) {
+        	return;
+        }
+        
         Membership membership = new Membership();
         membership.setUser(user);
         membership.setGroup(group);

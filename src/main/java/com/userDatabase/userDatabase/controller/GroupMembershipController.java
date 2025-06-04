@@ -10,22 +10,20 @@ import org.springframework.web.bind.annotation.*;
 public class GroupMembershipController {
 
     @Autowired
-    private UserService userService;
-  
-    @Autowired
     private MembershipService membershipService;
 
-    @PostMapping("/membership/add")
+    @PostMapping("/add")
     public String addMembership(@RequestParam Long userId,
                                 @RequestParam Long groupId,
                                 @RequestParam String role) {
-        userService.addUserToGroupWithRole(userId, groupId, role);
+        membershipService.addUserToGroupWithRole(userId, groupId, role);
         return "redirect:/myGroups?userId=" + userId;
     }
 
     @PostMapping("/leave")
-    public String leaveGroup(@RequestParam(value="userId") Long userId, @RequestParam(value="groupId") Long groupId, @RequestParam(value="role") String role) {
-        userService.removeUserFromGroup(userId, groupId);
+    public String leaveGroup(@RequestParam Long userId,
+                              @RequestParam Long groupId) {
+        membershipService.removeUserFromGroup(userId, groupId);
         return "User left group";
     }
 }
