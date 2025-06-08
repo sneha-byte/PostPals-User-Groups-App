@@ -36,14 +36,10 @@ public class HomeController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Home page (requires login)
+    // Home page 
     @GetMapping("/home")
-    public String getHomePage(HttpSession session, Model model) {
-        User loggedInUser = (User) session.getAttribute("loggedInUser");
-        if (loggedInUser == null) {
-            return "login";
-        }
-        model.addAttribute("user", loggedInUser);
+    public String getHomePage(Model sample) {
+        
         return "groups";
     }
 
@@ -80,33 +76,33 @@ public class HomeController {
     public String handleSignup(@RequestParam String name,
                                @RequestParam String email,
                                @RequestParam String password,
-                               Model model) {
+                               Model sample) {
 
         if (userService.getByUsername(name) != null) {
-            model.addAttribute("error", "Username already exists!");
+            sample.addAttribute("error", "Username already exists!");
             return "signup";
         }
 
         User newUser = new User();
         newUser.setName(name);
         newUser.setEmail(email);
-        newUser.setPassword(passwordEncoder.encode(password)); // ✅ Hashed password
+        newUser.setPassword(passwordEncoder.encode(password));
 
         userService.create(newUser);
-        model.addAttribute("success", "User registered successfully! Please log in.");
+        sample.addAttribute("success", "User registered successfully! Please log in.");
         return "login";
     }
 
     // Show all groups
     @GetMapping("/groups")
-    public String showGroupsPage(HttpSession session, Model model) {
+    public String showGroupsPage(HttpSession session, Model sample) {
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
             return "login";
         }
         List<Group> groups = groupService.findAllGroups();
-        model.addAttribute("groups", groups);
-        model.addAttribute("user", loggedInUser); 
+        sample.addAttribute("groups", groups);
+        sample.addAttribute("user", loggedInUser); 
         return "groups";
     }
 
