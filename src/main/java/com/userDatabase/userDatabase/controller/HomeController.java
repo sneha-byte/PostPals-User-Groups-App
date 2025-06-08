@@ -37,9 +37,12 @@ public class HomeController {
     private PasswordEncoder passwordEncoder;
 
     // Home page 
-    @GetMapping("/home")
-    public String getHomePage(Model sample) {
-        return "home";
+    @GetMapping("/")
+    public String showHome(HttpSession session) {
+        if (session.getAttribute("loggedInUser") != null) {
+            return "redirect:/my-groups";
+        }
+        return "home"; 
     }
 
     // Show login form
@@ -57,7 +60,7 @@ public class HomeController {
         User user = userRepository.findTopByName(name);
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             session.setAttribute("loggedInUser", user);
-            return "groups";
+            return "redirect:/my-groups";
         } else {
             sample.addAttribute("error", "Invalid credentials");
             return "login";

@@ -22,18 +22,18 @@ public class MyGroupsController {
 
     @Autowired
     private MembershipRepository membershipRepository;
-
+    
     @GetMapping("/my-groups")
-    public String showMyGroups(HttpSession session, Model model) {
+    public String showUserGroups(HttpSession session, Model model) {
         User user = (User) session.getAttribute("loggedInUser");
         if (user == null) {
             return "redirect:/login";
         }
 
         List<Membership> memberships = membershipRepository.findByUser(user);
-        model.addAttribute("user", user);
         model.addAttribute("memberships", memberships);
-        return "my-groups";
+        model.addAttribute("user", user);
+        return "my-groups"; 
     }
 }
 
