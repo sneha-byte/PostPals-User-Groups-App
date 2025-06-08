@@ -22,6 +22,7 @@
                 <strong>${membership.group.name}</strong><br />
                 Role: ${membership.role}<br />
                 <a href="/groups/${membership.group.id}">View Group</a>
+                
                 <form action="/membership/leave" method="post" style="display:inline;">
                     <input type="hidden" name="groupId" value="${membership.group.id}" />
                     <input type="hidden" name="userId" value="${user.id}" />

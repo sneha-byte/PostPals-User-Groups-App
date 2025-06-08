@@ -15,6 +15,8 @@ import com.userDatabase.userDatabase.service.GroupService;
 import com.userDatabase.userDatabase.service.PostService;
 import com.userDatabase.userDatabase.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class GroupViewController {
 
@@ -28,14 +30,19 @@ public class GroupViewController {
     private UserService userService; 
 
     @GetMapping("/groups/{groupId}")
-    public String viewGroup(@PathVariable Long groupId, 
-                            @RequestParam Long userId, 
-                            Model sample) {
+    public String viewGroup(@PathVariable Long groupId, Model sample, HttpSession session) {
+        var user = session.getAttribute("loggedInUser");
+        if (user == null) {
+            return "redirect:/login";
+        }
+
         Group group = groupService.getGroupById(groupId);
-        List<Post> posts = postService.getPostsByGroup(group); 
+        List<Post> posts = postService.getPostsByGroup(group);
+
         sample.addAttribute("group", group);
         sample.addAttribute("posts", posts);
-        sample.addAttribute("user", userService.getById(userId));
+        sample.addAttribute("user", user);
+
         return "group-view";
     }
 }

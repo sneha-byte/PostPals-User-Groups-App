@@ -1,11 +1,11 @@
 package com.userDatabase.userDatabase.service;
 
 import com.userDatabase.userDatabase.model.Post;
-import com.userDatabase.userDatabase.model.User;
 import com.userDatabase.userDatabase.model.Group;
-import com.userDatabase.userDatabase.repository.GroupRepository;
+import com.userDatabase.userDatabase.model.User;
 import com.userDatabase.userDatabase.repository.PostRepository;
 import com.userDatabase.userDatabase.repository.UserRepository;
+import com.userDatabase.userDatabase.repository.GroupRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,15 +20,15 @@ public class PostService {
     private PostRepository postRepository;
 
     @Autowired
-    private UserRepository userRepository; 
-    
+    private UserRepository userRepository;
+
     @Autowired
-    private GroupRepository groupRepository; 
-    
+    private GroupRepository groupRepository; // ✅ add this
+
     public Post savePost(Post post) {
         return postRepository.save(post);
     }
-    
+
     public void createPost(Long userId, Long groupId, String content) {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("User not found"));
@@ -36,10 +36,10 @@ public class PostService {
             .orElseThrow(() -> new RuntimeException("Group not found"));
 
         Post post = new Post();
-        post.setAuthor(user);
+        post.setAuthor(user); // ✅ not setUser
         post.setGroup(group);
         post.setContent(content);
-        post.setCreatedAt(LocalDateTime.now());
+        post.setCreatedAt(LocalDateTime.now()); // ✅ match your entity field
 
         postRepository.save(post);
     }
