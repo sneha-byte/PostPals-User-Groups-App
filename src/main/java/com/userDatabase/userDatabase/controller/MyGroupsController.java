@@ -17,23 +17,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.stream.Collectors;
     
-    @Controller
-    public class MyGroupsController {
+@Controller
+public class MyGroupsController {
 
-        @Autowired
-        private MembershipRepository membershipRepository;
+    @Autowired
+    private MembershipRepository membershipRepository;
 
-        @GetMapping("/my-groups")
-        public String showMyGroups(HttpSession session, Model model) {
-            User user = (User) session.getAttribute("loggedInUser");
-            if (user == null) {
-                return "redirect:/login";
-            }
-
-            List<Membership> memberships = membershipRepository.findByUser(user);
-            model.addAttribute("user", user);
-            model.addAttribute("memberships", memberships);
-            return "myGroups";
+    @GetMapping("/my-groups")
+    public String showMyGroups(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
+            return "redirect:/login";
         }
+
+        List<Membership> memberships = membershipRepository.findByUser(user);
+        model.addAttribute("user", user);
+        model.addAttribute("memberships", memberships);
+        return "my-groups";
     }
 }
+

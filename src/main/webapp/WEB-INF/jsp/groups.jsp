@@ -182,25 +182,20 @@
                 <tbody>
                     <c:choose>
                         <c:when test="${not empty groups}">
-                            <c:forEach var="group" items="${groups}" varStatus="status">
-                            
+                            <c:forEach var="group" items="${groups}" varStatus="status">                           
                                 <tr>
                                     <td>${status.index + 1}</td>
                                     <td><c:out value="${group.name != null ? group.name : 'N/A'}" /></td>
                                     <td><c:out value="${group.memberships.size()} members" /></td>
                                     <td>
 									    <form action="/membership/add" method="post">
-									        <input type="hidden" name="userId" value="${user.id}" />
-									        <input type="hidden" name="groupId" value="${group.id}" />
-									        <input type="hidden" name="role" value="member" />
-									        <button type="submit" class="nav-btn">Join Group</button>
-									    </form>
+										    <input type="hidden" name="groupId" value="${group.id}" />
+										    <input type="hidden" name="role" value="member" />
+										    <button type="submit" class="nav-btn">Join Group</button>
+										</form>
 									</td>
-
-                                </tr>
-                                	
-                            </c:forEach>
-                           
+                                </tr>                                	
+                            </c:forEach>                           
                         </c:when>
                         <c:otherwise>
                             <tr>

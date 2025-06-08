@@ -30,12 +30,12 @@ public class GroupViewController {
     @GetMapping("/groups/{groupId}")
     public String viewGroup(@PathVariable Long groupId, 
                             @RequestParam Long userId, 
-                            Model model) {
+                            Model sample) {
         Group group = groupService.getGroupById(groupId);
         List<Post> posts = postService.getPostsByGroup(group); 
-        model.addAttribute("group", group);
-        model.addAttribute("posts", posts);
-        model.addAttribute("user", userService.getById(userId));
+        sample.addAttribute("group", group);
+        sample.addAttribute("posts", posts);
+        sample.addAttribute("user", userService.getById(userId));
         return "group-view";
     }
 }

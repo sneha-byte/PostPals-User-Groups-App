@@ -39,8 +39,7 @@ public class HomeController {
     // Home page 
     @GetMapping("/home")
     public String getHomePage(Model sample) {
-        
-        return "groups";
+        return "home";
     }
 
     // Show login form

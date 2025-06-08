@@ -35,7 +35,9 @@ public class GroupMembershipController {
     public String leaveGroup(@RequestParam Long groupId,
                              HttpSession session) {
         User user = (User) session.getAttribute("loggedInUser");
-        if (user == null) return "redirect:/login";
+        if (user == null) {
+        	return "redirect:/login";
+        }
 
         membershipService.removeUserFromGroup(user.getId(), groupId);
         return "redirect:/my-groups";
