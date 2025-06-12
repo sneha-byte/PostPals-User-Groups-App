@@ -2,6 +2,8 @@ package com.userDatabase.userDatabase.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 @Entity
 public class Post {
@@ -25,9 +27,11 @@ public class Post {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
+    
+    @Transient
+    public Date getCreatedAtAsDate() {
+        if (createdAt == null) return null;
+        return Date.from(createdAt.atZone(ZoneId.systemDefault()).toInstant());
     }
 
 	// Getters and Setters
