@@ -10,7 +10,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String email;
 
@@ -23,7 +22,6 @@ public class User {
     private Set<Post> posts = new HashSet<>();
 
     // Getters and Setters
-
     public Set<Post> getPosts() { 
     	return posts; 
     }

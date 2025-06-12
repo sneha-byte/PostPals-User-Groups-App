@@ -14,6 +14,9 @@ public class Post {
 
     private LocalDateTime createdAt;
 
+    // Add column in post table for the user that created the post
+    // Many to one because one user can have many posts 
+    // Maps author field in the Post to user_id in database
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User author;

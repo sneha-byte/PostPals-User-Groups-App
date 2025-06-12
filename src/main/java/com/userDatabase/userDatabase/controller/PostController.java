@@ -4,7 +4,7 @@ import com.userDatabase.userDatabase.service.PostService;
 import com.userDatabase.userDatabase.service.GroupService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller; // ✅ Use Controller, not RestController
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
