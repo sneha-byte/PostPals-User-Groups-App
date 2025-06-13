@@ -36,6 +36,7 @@ public class PostService {
         Group group = groupRepository.findById(groupId)
             .orElseThrow(() -> new RuntimeException("Group not found"));
 
+        // Set the post object variables to current group and user
         Post post = new Post();
         post.setAuthor(user); 
         post.setGroup(group);
@@ -49,11 +50,10 @@ public class PostService {
         Post post = postRepository.findById(postId)
             .orElseThrow(() -> new RuntimeException("Post not found"));
 
+        // The current user needs to be the author to delete it 
         if (!post.getAuthor().getId().equals(userId)) {
-            // User is not the author, don't delete
             return false;
         }
-
         postRepository.deleteById(postId);
         return true;
     }

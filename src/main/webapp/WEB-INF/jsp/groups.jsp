@@ -162,7 +162,7 @@
         <nav class="nav-buttons">
             <a class="btn" href="/members">All Users</a>           
                 <a class="btn" href="/my-groups">My Groups</a>
-                <a class="btn" href="/groups">All Groups</a>                
+				<a class="btn" href="/groups?userId=${user.id}">All Groups</a>
                 <a class="btn" href="/logout">Logout</a>
         </nav>
     </header>
@@ -176,35 +176,37 @@
                         <th>#</th>
                         <th>Group Name</th>
                         <th>Members</th>
-                        <th></th>
+                        <th>Join Group</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <c:choose>
-                        <c:when test="${not empty groups}">
-                            <c:forEach var="group" items="${groups}" varStatus="status">                           
-                                <tr>
-                                    <td>${status.index + 1}</td>
-                                    <td><c:out value="${group.name != null ? group.name : 'N/A'}" /></td>
-                                    <td><c:out value="${group.memberships.size()} members" /></td>
-                                    <td>
-									    <form action="/membership/add" method="post">
-										    <input type="hidden" name="groupId" value="${group.id}" />
-										    <input type="hidden" name="role" value="member" />
-										    <button type="submit" class="nav-btn">Join Group</button>
-										</form>
-									</td>
-                                </tr>                                	
-                            </c:forEach>                           
-                        </c:when>
-                        <c:otherwise>
-                            <tr>
-                                <td colspan="3" class="no-groups">No groups found</td>
-                            </tr>
-                        </c:otherwise>
-                    </c:choose>
-                   
-                </tbody>
+				<tbody>
+				    <!-- User's joined groups -->
+				    <c:forEach var="group" items="${joinedGroups}" varStatus="status">
+				        <tr>
+				            <td>${status.index + 1}</td>
+				            <td><c:out value="${group.name}" /></td>
+				            <td><c:out value="${group.memberships.size()} members" /></td>
+				            <td>Already Joined</td>
+				        </tr>
+				    </c:forEach>
+				
+				    <!-- Other groups with Join buttons -->
+				    <c:forEach var="group" items="${otherGroups}" varStatus="status">
+				        <tr>
+				            <td>${status.index + joinedGroups.size() + 1}</td>
+				            <td><c:out value="${group.name}" /></td>
+				            <td><c:out value="${group.memberships.size()} members" /></td>
+				            <td>
+				                <form action="/membership/add" method="post">
+				                    <input type="hidden" name="groupId" value="${group.id}" />
+				                    <input type="hidden" name="role" value="member" />
+				                    <input type="hidden" name="userId" value="${user.id}" />
+				                    <button type="submit" class="nav-btn">Join Group</button>
+				                </form>
+				            </td>
+				        </tr>
+				    </c:forEach>
+				</tbody>
             </table>
         </div>
     </main>

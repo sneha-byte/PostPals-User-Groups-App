@@ -1,6 +1,9 @@
 package com.userDatabase.userDatabase.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -106,18 +109,38 @@ public class HomeController {
         return "login";
     }
 
-    // Show all groups
+    //Show all groups with users groups at the top
     @GetMapping("/groups")
     public String showGroupsPage(HttpSession session, Model sample) {
-        User loggedInUser = (User) session.getAttribute("loggedInUser");
-        if (loggedInUser == null) {
-            return "login";
+        User user = (User) session.getAttribute("loggedInUser"); 
+
+        if (user == null) {
+            return "redirect:/login"; 
         }
-        List<Group> groups = groupService.findAllGroups();
-        sample.addAttribute("groups", groups);
-        sample.addAttribute("user", loggedInUser); 
+
+        List<Group> allGroups = groupRepository.findAll();
+        Set<Group> userGroups = user.getMemberships()
+                                    .stream()
+                                    .map(Membership::getGroup)
+                                    .collect(Collectors.toSet());
+
+        List<Group> joinedGroups = new ArrayList<>();
+        List<Group> otherGroups = new ArrayList<>();
+
+        for (Group group : allGroups) {
+            if (userGroups.contains(group)) {
+                joinedGroups.add(group);
+            } else {
+                otherGroups.add(group);
+            }
+        }
+
+        sample.addAttribute("joinedGroups", joinedGroups);
+        sample.addAttribute("otherGroups", otherGroups);
+        sample.addAttribute("user", user);
         return "groups";
     }
+
 
     // Show all members
     @GetMapping("/members")
