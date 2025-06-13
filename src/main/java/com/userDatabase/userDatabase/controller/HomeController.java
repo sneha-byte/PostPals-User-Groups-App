@@ -66,6 +66,12 @@ public class HomeController {
             return "login";
         }
     }
+    
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); 
+        return "home";  
+    }
 
     // Show signup form
     @GetMapping("/signup")
@@ -82,6 +88,11 @@ public class HomeController {
 
         if (userService.getByUsername(name) != null) {
             sample.addAttribute("error", "Username already exists!");
+            return "signup";
+        }
+        
+        if (userService.getByEmail(email) != null) {
+            sample.addAttribute("error", "Email already exists!");
             return "signup";
         }
 

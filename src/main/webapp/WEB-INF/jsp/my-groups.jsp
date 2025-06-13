@@ -119,9 +119,10 @@
 		    </div>
 		    <nav>
 			    <div class="nav-buttons">
-			        <a class="btn btn-primary" href="/my-groups">My Groups</a>
-			        <a class="btn btn-primary" href="/groups">All Groups</a>
-			        <a class="btn btn-primary" href="/logout">Logout</a>
+			        <a class="btn" href="/members">All Users</a>           
+	                <a class="btn" href="/my-groups">My Groups</a>
+	                <a class="btn" href="/groups">All Groups</a>                
+	                <a class="btn" href="/logout">Logout</a>
 			    </div>
 			</nav>
 		</header>

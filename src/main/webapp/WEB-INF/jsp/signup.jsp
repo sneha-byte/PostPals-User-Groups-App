@@ -14,6 +14,13 @@
     <main>
         <section class="hero">
             <h1>Sign Up</h1>
+		    <c:if test="${not empty error}">
+		        <div style="color: red;">${error}</div>
+		    </c:if>
+		
+		    <c:if test="${not empty success}">
+		        <div style="color: green;">${success}</div>
+		    </c:if>
          
 			<form action="/signup" method="post" class="signup-form">
 			    <div class="form-group">

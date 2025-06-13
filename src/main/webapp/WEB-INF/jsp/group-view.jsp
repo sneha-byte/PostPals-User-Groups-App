@@ -71,7 +71,7 @@
             background-color: var(--beige);
             padding: 1em 1.5em;
             border-radius: 8px;
-            margin-bottom: 1em;
+            margin-bottom: 2em;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
@@ -127,8 +127,9 @@
         </div>
         <nav>
             <div class="nav-buttons">
+                <a class="btn" href="/members">All Users</a>           
                 <a class="btn" href="/my-groups">My Groups</a>
-                <a class="btn" href="/groups">All Groups</a>
+                <a class="btn" href="/groups">All Groups</a>                
                 <a class="btn" href="/logout">Logout</a>
             </div>
         </nav>

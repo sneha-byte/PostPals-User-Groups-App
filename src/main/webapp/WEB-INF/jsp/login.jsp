@@ -5,6 +5,18 @@
     <meta charset="UTF-8">
     <title>Login - PostPals</title>
     <link rel="stylesheet" href="/styles.css">
+    <style>
+	.error-message {
+	    color: red;
+	    font-weight: bold;
+	    margin-bottom: 1em;
+	}
+	.success-message {
+	    color: green;
+	    font-weight: bold;
+	    margin-bottom: 1em;
+	}
+	</style>
 </head>
 <body>
     <header>
@@ -14,7 +26,27 @@
     <main>
         <section class="hero">
             <h1>Log In</h1>
+		    <c:if test="${not empty error}">
+			    <div class="error-message" id="errorMsg">${error}</div>
+				    <script>
+				        setTimeout(function() {
+				            const msg = document.getElementById('errorMsg');
+				            if (msg) msg.style.display = 'none';
+				        }, 3000); 
+				</script>
+			</c:if>
 
+		
+		    <c:if test="${not empty success}">
+			    <div class="success-message" id="successMsg">${success}</div>
+			    <script>
+			        setTimeout(function() {
+			            const msg = document.getElementById('successMsg');
+			            if (msg) msg.style.display = 'none';
+			        }, 3000);
+			    </script>
+			</c:if>
+		    
             <form action="login" method="post" class="login-form">
                 <div class="form-group">
                     <label for="name">Username:</label>

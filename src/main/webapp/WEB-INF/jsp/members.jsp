@@ -160,9 +160,10 @@
     <header>
         <div class="logo">PostPals</div>
         <nav class="nav-buttons">
-            <a href="/home" class="nav-btn">Home</a>
-            <a href="/members" class="nav-btn">Users</a>
-            <a href="/groups" class="nav-btn">Groups</a>
+            <a class="btn" href="/members">All Users</a>           
+            <a class="btn" href="/my-groups">My Groups</a>
+            <a class="btn" href="/groups">All Groups</a>                
+            <a class="btn" href="/logout">Logout</a>
         </nav>
     </header>
 

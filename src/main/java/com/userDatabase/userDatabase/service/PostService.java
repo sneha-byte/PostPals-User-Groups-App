@@ -43,6 +43,10 @@ public class PostService {
 
         postRepository.save(post);
     }
+    
+    public void deletePostById(Long postId) {
+        postRepository.deleteById(postId);
+    }
 
     public List<Post> getPostsByGroup(Group group) {
         return postRepository.findByGroup(group);
