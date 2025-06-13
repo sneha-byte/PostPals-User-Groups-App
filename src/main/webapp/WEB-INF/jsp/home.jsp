@@ -5,18 +5,7 @@
     <meta charset="UTF-8">
     <title>PostPals - Home</title>
 	<link rel="stylesheet" href="/styles.css">
-	<style>
-	.error-message {
-    color: red;
-    font-weight: bold;
-    margin-bottom: 1em;
-	}
-	.success-message {
-    color: green;
-    font-weight: bold;
-    margin-bottom: 1em;
-}
-	</style>
+	
 </head>
 <body>
     <header>

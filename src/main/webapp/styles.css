@@ -8,11 +8,14 @@
 
 :root {
     --pink: #FFDCDC;
+    --pink-darker: #ffc3c3;
     --peach: #FFF2EB;
     --beige: #FFE8CD;
     --orange: #FFD6BA;
     --orange-dark: #ffb88c;
     --orange-darker: #ffa870;
+    --red: #e37f7f;
+    --red-darker: #dd6666;
     --text-dark: #333;
     --text-muted: #555;
 }

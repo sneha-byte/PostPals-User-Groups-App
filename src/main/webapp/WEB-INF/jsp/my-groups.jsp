@@ -78,9 +78,9 @@
 
         /* Base styles general button rules */
 		.btn {
-		    padding: 0.5em 1.2em;
-		    font-size: 1.15em;
-		    min-width: 250px;
+		    padding: 0.5em 1.0em;
+		    font-size: 1.05em;
+		    min-width: 200px;
 		    text-align: center;
 		    display: inline-block;
 		    border-radius: 6px;
@@ -89,10 +89,10 @@
 		/* Specialized button styles for nav bar */
 		/* overrides the default .btn width */
 		.nav-buttons .btn {
-		    font-size: 0.9em;
+		    font-size: 0.8em;
 		    padding: 0.9em 1em;
-		    min-width: 110px;
-		    min-height: 60px;  
+		    min-width: 50px;
+		    min-height: 40px;  
 		    background-color: var(--orange);
 		}
 		

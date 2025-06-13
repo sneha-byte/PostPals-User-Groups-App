@@ -22,4 +22,10 @@ public class PostController {
         postService.createPost(userId, groupId, content);
         return "redirect:/groups/" + groupId;
     }
+    
+    @PostMapping("/delete")
+    public String deletePost(@RequestParam Long postId, @RequestParam Long groupId) {
+        postService.deletePostById(postId);
+        return "redirect:/groups/" + groupId;
+    }
 }

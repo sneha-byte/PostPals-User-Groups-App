@@ -10,6 +10,7 @@ import com.userDatabase.userDatabase.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -44,8 +45,13 @@ public class PostService {
         postRepository.save(post);
     }
     
+    // Delete post by ID
     public void deletePostById(Long postId) {
-        postRepository.deleteById(postId);
+        if (postRepository.existsById(postId)) {
+            postRepository.deleteById(postId);
+        } else {
+            throw new RuntimeException("Post not found with id: " + postId);
+        }
     }
 
     public List<Post> getPostsByGroup(Group group) {

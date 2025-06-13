@@ -33,12 +33,12 @@
         }
 
         nav .btn {
-            padding: 0.5em 1.2em;
+            padding: 0.7em 1.2em;
             border-radius: 5px;
             background-color: var(--orange);
             color: var(--text-dark);
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 650;
             transition: background-color 0.3s ease;
         }
 
@@ -66,6 +66,11 @@
             font-size: 1.5em;
             margin-bottom: 1em;
         }
+        
+         h4 {
+            font-size: 1.8em;
+            margin-bottom: 1em;
+        }
 
         .post-card {
             background-color: var(--beige);
@@ -74,15 +79,20 @@
             margin-bottom: 2em;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
+        
+        .post-content {
+		    margin-bottom: 1em;
+		    font-size: 1.2em; 
+		}
 
         .post-card strong {
             color: var(--text-dark);
-            font-size: 1.05em;
+            font-size: 1em;            
         }
 
         .post-card em {
             color: var(--text-muted);
-            font-size: 0.9em;
+            font-size: 2.5em;
         }
         
         .post-meta {
@@ -96,28 +106,57 @@
             width: 100%;
             max-width: 600px;
             padding: 0.7em;
-            border: 1px solid #ccc;
+            border: 2px solid #333;
             border-radius: 5px;
-            font-size: 1em;
+            font-size: 1.2em;
             margin-bottom: 1em;
             box-sizing: border-box;
         }
 
-        form button {
-            padding: 0.6em 1.5em;
-            background-color: var(--orange-dark);
-            color: var(--text-dark);
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        form button:hover {
+        .post-btn {
+		    padding: 0.6em 2.2em;
+		    background-color: var(--orange-dark);
+		    color: var(--text-dark);
+		    border: none;
+		    border-radius: 5px;
+		    font-weight: bold;
+		    cursor: pointer;
+		    font-size: 1.2em;
+		    min-width: 80px;
+		    min-height: 30px;
+		    transition: background-color 0.3s ease;
+		}
+        
+        .post-btn:hover {
             background-color: var(--orange-darker);
         }
+        
+        button.delete {
+		    margin-top: 0.8em;
+		    background-color: var(--red); 
+		    color: white;
+		    padding: 0.6em 1.2em;
+		    border: none;
+		    border-radius: 5px;
+		    font-weight: bold;
+		    cursor: pointer;
+		    transition: background-color 0.3s ease;
+		}
+		
+		button.delete:hover {
+		    background-color: var(--red-darker); 
+		}
+
+        form button.delete {
+		    background-color: var(--red);
+            color: var(--text-dark);
+		}
+		
+		form button.delete:hover {
+		    background-color: var(--red-darker);
+		}
     </style>
+    
 </head>
 <body>
     <header>
@@ -137,7 +176,7 @@
 
     <main>
         <section>
-    <h2>Posts</h2>
+    <h4>Posts</h4>
     <c:forEach var="post" items="${posts}">
         <div class="post-card">
             <c:choose>
@@ -145,13 +184,20 @@
                     <div class="post-meta">
 						<fmt:formatDate value="${post.createdAtAsDate}" pattern="M/d/yyyy h:mm a" />
                     </div>
-                    <div><strong>${post.author.name}</strong>: ${post.content}</div>
-                </c:when>
+						<div class="post-content">
+						    <strong>${post.author.name}</strong>: ${post.content}
+						</div>                
+				</c:when>
                 <c:otherwise>
                     <div class="post-meta"><em>Unknown Date</em></div>
                     <div><strong>Unknown User</strong>: ${post.content}</div>
                 </c:otherwise>
             </c:choose>
+            <form action="/posts/delete" method="post" style="margin-top: 0.5em;">
+	            <input type="hidden" name="postId" value="${post.id}" />
+	            <input type="hidden" name="groupId" value="${group.id}" />
+	       	<button class = "delete" type="submit">Delete</button>
+        </form>
         </div>
     </c:forEach>
 </section>
@@ -162,7 +208,7 @@
                 <input type="hidden" name="userId" value="${user.id}" />
                 <input type="hidden" name="groupId" value="${group.id}" />
                 <textarea name="content" placeholder="Write your post here..." required rows="3"></textarea><br>
-                <button type="submit">Post</button>
+                <button class = "post-btn" type="submit">Post</button>
             </form>
         </section>
     </main>
