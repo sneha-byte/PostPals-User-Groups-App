@@ -24,8 +24,17 @@ public class PostController {
     }
     
     @PostMapping("/delete")
-    public String deletePost(@RequestParam Long postId, @RequestParam Long groupId) {
-        postService.deletePostById(postId);
+    public String deletePost(@RequestParam Long postId, 
+                             @RequestParam Long groupId, 
+                             @RequestParam Long userId) {
+
+    	// Check is user id matches post to make sure others cant delete each others posts
+        boolean success = postService.deletePostIfAuthorized(postId, userId);
+        
+        if (!success) {
+            return "redirect:/groups/" + groupId + "?error=unauthorized";
+        }
+
         return "redirect:/groups/" + groupId;
     }
 }

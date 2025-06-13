@@ -45,15 +45,19 @@ public class PostService {
         postRepository.save(post);
     }
     
-    // Delete post by ID
-    public void deletePostById(Long postId) {
-        if (postRepository.existsById(postId)) {
-            postRepository.deleteById(postId);
-        } else {
-            throw new RuntimeException("Post not found with id: " + postId);
-        }
-    }
+    public boolean deletePostIfAuthorized(Long postId, Long userId) {
+        Post post = postRepository.findById(postId)
+            .orElseThrow(() -> new RuntimeException("Post not found"));
 
+        if (!post.getAuthor().getId().equals(userId)) {
+            // User is not the author, don't delete
+            return false;
+        }
+
+        postRepository.deleteById(postId);
+        return true;
+    }
+    
     public List<Post> getPostsByGroup(Group group) {
         return postRepository.findByGroup(group);
     }

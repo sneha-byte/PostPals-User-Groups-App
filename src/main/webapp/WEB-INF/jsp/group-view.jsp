@@ -38,7 +38,7 @@
             background-color: var(--orange);
             color: var(--text-dark);
             text-decoration: none;
-            font-weight: 650;
+            font-weight: 600;
             transition: background-color 0.3s ease;
         }
 
@@ -47,8 +47,8 @@
         }
 
         .welcome {
-            font-size: 1.1em;
-            color: var(--text-muted);
+            font-size: 1.4em;
+            color: var(--text-dark);
             margin-top: 0.5em;
         }
 
@@ -83,11 +83,13 @@
         .post-content {
 		    margin-bottom: 1em;
 		    font-size: 1.2em; 
+		    font-weight: 500;
 		}
 
         .post-card strong {
             color: var(--text-dark);
-            font-size: 1em;            
+            font-size: 1em;  
+            font-weight: 610;          
         }
 
         .post-card em {
@@ -193,11 +195,13 @@
                     <div><strong>Unknown User</strong>: ${post.content}</div>
                 </c:otherwise>
             </c:choose>
-            <form action="/posts/delete" method="post" style="margin-top: 0.5em;">
-	            <input type="hidden" name="postId" value="${post.id}" />
-	            <input type="hidden" name="groupId" value="${group.id}" />
-	       	<button class = "delete" type="submit">Delete</button>
-        </form>
+            <c:if test="${post.author.id == user.id}">
+	            <form action="/posts/delete" method="post" style="margin-top: 0.5em;">
+		            <input type="hidden" name="postId" value="${post.id}" />
+		            <input type="hidden" name="groupId" value="${group.id}" />
+		       	<button class = "delete" type="submit">Delete</button>
+	        	</form>
+	        </c:if>
         </div>
     </c:forEach>
 </section>
