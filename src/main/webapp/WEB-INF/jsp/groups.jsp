@@ -153,6 +153,58 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
+        
+		.create-group-container {
+		    background-color: var(--beige);
+		    padding: 1em;
+		    margin: 0 auto 1em auto;
+		    border-radius: 10px;
+		    max-width: 350px;
+		    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+		    text-align: center;
+		}
+		
+		.create-group-form {
+		    display: flex;
+		    flex-direction: column;
+		    gap: 2em;
+		    align-items: center;
+		}
+		
+		.group-label {
+		    font-weight: bold;
+		    font-size: 1.2em;
+		    color: var(--text-dark);
+		    
+		}
+		
+		.group-input {
+		    padding: 0.7em 1.4em;
+		    font-size: 1em;
+		    border: 1px solid #ccc;
+		    border-radius: 6px;
+		    width: 90%;
+		    max-width: 290px;
+		    box-sizing: border-box;
+		    margin: 1em; 
+		}
+		
+		.group-button {
+		    padding: 0.4em 1.2em; 
+		    font-size: 0.95em;
+		    background-color: var(--orange-dark);
+		    font-weight: bold;
+		    color: var(--text-dark);
+		    border: none;
+		    border-radius: 6px;
+		    cursor: pointer;
+		    transition: background-color 0.3s ease;
+		}
+		
+		.group-button:hover {
+		    background-color: var(--orange-darker);
+		}
+        
     </style>
 </head>
 
@@ -170,6 +222,16 @@
     <main>
         <h1 class="page-title">Groups</h1>
         <div class="table-container">
+			<div style="text-align: center; margin-bottom: 2em;">
+			    <div class="create-group-container">
+				    <form action="/group/create" method="post">
+				        <label for="groupName" class="group-label">Create a New Group</label>
+				        <input type="text" id="groupName" name="groupName" placeholder="Enter group name..." required class="group-input" />
+				        <button type="submit" class="group-button">Create Group</button>
+				    </form>
+				</div>
+
+			</div>
             <table class="groups-table">
                 <thead>
                     <tr>

@@ -125,7 +125,7 @@ input[type="password"] {
 
 .btn {
     background-color: var(--orange);
-	border: 2px solid rgba(0, 0, 0, 0.5);
+	border: 2px solid rgba(0, 0, 0, 0.5);	
     color: var(--text-dark);
     padding: 0.8em 2.1em;
     border-radius: 5px;

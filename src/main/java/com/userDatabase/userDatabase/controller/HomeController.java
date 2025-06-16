@@ -112,10 +112,16 @@ public class HomeController {
     //Show all groups with users groups at the top
     @GetMapping("/groups")
     public String showGroupsPage(HttpSession session, Model sample) {
-        User user = (User) session.getAttribute("loggedInUser"); 
+        User sessionUser = (User) session.getAttribute("loggedInUser"); 
 
-        if (user == null) {
+        if (sessionUser == null) {
             return "redirect:/login"; 
+        }
+
+        // Re-fetch user from DB so memberships is loaded in Hibernate session
+        User user = userRepository.findById(sessionUser.getId()).orElse(null);
+        if (user == null) {
+            return "redirect:/login"; // fallback
         }
 
         List<Group> allGroups = groupRepository.findAll();
@@ -140,7 +146,6 @@ public class HomeController {
         sample.addAttribute("user", user);
         return "groups";
     }
-
 
     // Show all members
     @GetMapping("/members")

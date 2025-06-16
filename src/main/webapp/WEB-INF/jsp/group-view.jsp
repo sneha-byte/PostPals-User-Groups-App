@@ -196,16 +196,16 @@
                 </c:otherwise>
             </c:choose>
             <c:if test="${post.author.id == user.id}">
-	            <form action="/posts/delete" method="post" style="margin-top: 0.5em;">
-		            <input type="hidden" name="postId" value="${post.id}" />
-		            <input type="hidden" name="groupId" value="${group.id}" />
-		       	<button class = "delete" type="submit">Delete</button>
-	        	</form>
-	        </c:if>
+			    <form action="/posts/delete" method="post">
+			        <input type="hidden" name="postId" value="${post.id}" />
+			        <input type="hidden" name="userId" value="${user.id}" />
+			        <input type="hidden" name="groupId" value="${group.id}" />
+			        <button type="submit" class="delete">Delete</button>
+			    </form>
+			</c:if>
         </div>
     </c:forEach>
-</section>
-
+	</section>
         <section>
             <h2>Add a New Post</h2>
             <form action="/posts/create" method="post">
