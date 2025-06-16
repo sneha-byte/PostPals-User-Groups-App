@@ -37,12 +37,15 @@
         /* Header */
         header {
             background-color: var(--pink);
-            padding: 1em 2em;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+			    padding: 1.4em 2em;
+			    display: flex;
+			    font-size: 20px;
+			    justify-content: space-between;
+			    align-items: center;
+			    flex-wrap: wrap;
+			    border-radius: 12px;
+			    margin: 1em 1em;
+			    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
         }
 
         .logo {
@@ -50,22 +53,59 @@
             font-weight: bold;
             color: var(--text-dark);
         }
-
-        .nav-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .nav-btn {
-            background-color: var(--orange);
-            color: var(--text-dark);
-            padding: 0.7em 1.5em;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
+        
+        .group-input {
+		    padding: 0.7em 1.4em;
+		    font-size: 1em;
+		    border: 1px solid #ccc;
+		    border-radius: 6px;
+		    width: 90%;
+		    max-width: 290px;
+		    box-sizing: border-box;
+		    margin: 1em; 
+		}
+		
+		.group-button {
+		    padding: 0.4em 1.2em; 
+		    font-size: 0.95em;
+		    background-color: var(--orange-dark);
+		    font-weight: bold;
+		    color: var(--text-dark);
+		    border: none;
+		    border-radius: 6px;
+		    cursor: pointer;
+		    transition: background-color 0.3s ease;
+		}
+		
+		.group-button:hover {
+		    background-color: var(--orange-darker);
+		}
+        
+        /* Base styles general button rules */
+		.btn {
+		    padding: 0.5em 1.0em;
+		    font-size: 1.05em;
+		    min-width: 200px;
+		    text-align: center;
+		    display: inline-block;
+		    border-radius: 6px;
+		}
+		
+		/* Specialized button styles for nav bar */
+		/* overrides the default .btn width */
+		.nav-buttons .btn {
+		    font-size: 0.8em;
+		    padding: 0.9em 1em;
+		    min-width: 50px;
+		    min-height: 40px;  
+		    background-color: var(--orange);
+		}
+		
+		/* Container layout for nav buttons */
+		.nav-buttons {
+		    display: flex;
+		    gap: 1em;
+		}
 
         .nav-btn:hover {
             background-color: #ffc09f;
@@ -178,32 +218,8 @@
 		    
 		}
 		
-		.group-input {
-		    padding: 0.7em 1.4em;
-		    font-size: 1em;
-		    border: 1px solid #ccc;
-		    border-radius: 6px;
-		    width: 90%;
-		    max-width: 290px;
-		    box-sizing: border-box;
-		    margin: 1em; 
-		}
 		
-		.group-button {
-		    padding: 0.4em 1.2em; 
-		    font-size: 0.95em;
-		    background-color: var(--orange-dark);
-		    font-weight: bold;
-		    color: var(--text-dark);
-		    border: none;
-		    border-radius: 6px;
-		    cursor: pointer;
-		    transition: background-color 0.3s ease;
-		}
 		
-		.group-button:hover {
-		    background-color: var(--orange-darker);
-		}
         
     </style>
 </head>
@@ -211,12 +227,14 @@
 <body>
     <header>
         <div class="logo">PostPals</div>
-        <nav class="nav-buttons">
-            <a class="btn" href="/members">All Users</a>           
+        <nav>
+		    <div class="nav-buttons">
+		        <a class="btn" href="/members">All Users</a>           
                 <a class="btn" href="/my-groups">My Groups</a>
-				<a class="btn" href="/groups?userId=${user.id}">All Groups</a>
+                <a class="btn" href="/group/groups">All Groups</a>                
                 <a class="btn" href="/logout">Logout</a>
-        </nav>
+		    </div>
+		</nav>
     </header>
 
     <main>
@@ -263,7 +281,7 @@
 				                    <input type="hidden" name="groupId" value="${group.id}" />
 				                    <input type="hidden" name="role" value="member" />
 				                    <input type="hidden" name="userId" value="${user.id}" />
-				                    <button type="submit" class="nav-btn">Join Group</button>
+				                    <button type="submit" class="group-button">Join Group</button>
 				                </form>
 				            </td>
 				        </tr>

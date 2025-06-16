@@ -14,36 +14,47 @@
         
         header {
 		    background-color: var(--pink);
-		    padding: 1em 2em;
+		    padding: 0.7em 2em;
 		    display: flex;
 		    justify-content: space-between;
 		    align-items: center;
 		    flex-wrap: wrap;
 		    border-radius: 12px;
-		    margin: 1em 1em;
+		    margin: 0.4em 0.4em;
 		}
 
-        nav {
-            margin-top: 0.5em;
+        /* Base styles general button rules */
+		.btn {
+		    padding: 0.5em 1.0em;
+		    font-size: 1.05em;
+		    min-width: 200px;
+		    text-align: center;
+		    display: inline-block;
+		    border-radius: 6px;
+		}
+		
+		/* Specialized button styles for nav bar */
+		/* overrides the default .btn width */
+		.nav-buttons .btn {
+		    font-size: 0.8em;
+		    padding: 1em 1.2em;
+		    min-width: 50px;
+		    min-height: 40px;  
+		    background-color: var(--orange);
+		}
+		
+		/* Container layout for nav buttons */
+		.nav-buttons {
+		    display: flex;
+		    gap: 1em;
+		}
+
+        .nav-btn:hover {
+            background-color: #ffc09f;
         }
 
-        nav .nav-buttons {
-            display: flex;
-            gap: 1em;
-        }
-
-        nav .btn {
-            padding: 0.7em 1.2em;
-            border-radius: 5px;
-            background-color: var(--orange);
-            color: var(--text-dark);
-            text-decoration: none;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
-
-        nav .btn:hover {
-            background-color: var(--orange-dark);
+        .nav-btn.active {
+            background-color: #ff80c0;
         }
 
         .welcome {
@@ -170,7 +181,7 @@
             <div class="nav-buttons">
                 <a class="btn" href="/members">All Users</a>           
                 <a class="btn" href="/my-groups">My Groups</a>
-				<a class="btn" href="/groups?userId=${user.id}">All Groups</a>
+				<a class="btn" href="/group/groups">All Groups</a>
                 <a class="btn" href="/logout">Logout</a>
             </div>
         </nav>
