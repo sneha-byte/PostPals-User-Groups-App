@@ -1,6 +1,7 @@
 package com.userDatabase.userDatabase.controller;
 
 import com.userDatabase.userDatabase.exception.UserNotFoundException;
+import com.userDatabase.userDatabase.exception.UserResponse;
 import com.userDatabase.userDatabase.model.User;
 import com.userDatabase.userDatabase.service.UserService;
 
@@ -47,16 +48,12 @@ public class UserController {
         try {
         	User user = userService.getById(id);
         	response.put("user", user);
-        	response.put("message", "User found successfully");
-        	success = true; 
-        	response.put("success", success);        	
+        	response.put("userResponse", new UserResponse(true, "User found successfully"));
         	return ResponseEntity.status(HttpStatus.OK).body(response);
         	
         } catch (UserNotFoundException e) {
         	logger.error("User not found by Id: {}", id, e);
-        	success = false; 
-        	response.put("success", success); 
-        	response.put("message", "User not found");
+        	response.put("userResponse", new UserResponse(false, "User not found"));
         	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
