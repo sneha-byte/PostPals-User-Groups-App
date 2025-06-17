@@ -217,10 +217,6 @@
 		    color: var(--text-dark);
 		    
 		}
-		
-		
-		
-        
     </style>
 </head>
 

@@ -37,16 +37,16 @@
         /* Header */
         header {
             background-color: var(--pink);
-			    padding: 1.2em 2em;
-			    display: flex;
-			    font-size: 20px;
-			    justify-content: space-between;
-			    align-items: center;
-			    flex-wrap: wrap;
-			    border-radius: 12px;
-			    margin: 1em 1em;
-			    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-        }
+		    padding: 1.2em 2em;
+		    display: flex;
+		    font-size: 20px;
+		    justify-content: space-between;
+		    align-items: center;
+		    flex-wrap: wrap;
+		    border-radius: 12px;
+		    margin: 1em 1em;
+		    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+       }
 
         .logo {
             font-size: 1.5em;

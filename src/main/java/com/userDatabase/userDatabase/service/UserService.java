@@ -1,5 +1,6 @@
 package com.userDatabase.userDatabase.service;
 
+import com.userDatabase.userDatabase.exception.UserNotFoundException;
 import com.userDatabase.userDatabase.model.Group;
 import com.userDatabase.userDatabase.model.Membership;
 import com.userDatabase.userDatabase.model.User;
@@ -51,10 +52,10 @@ public class UserService {
                           .toList();
     }
     
-    public User getById(Long id) {
+    public User getById(Long id) throws UserNotFoundException {
     	Optional<User> userOptional = userRepository.findById(id);
     	if (userOptional.isEmpty()) {
-    		return null; 
+    		throw new UserNotFoundException("User not found by Id"); 
     	}
         return userOptional.get();
     }

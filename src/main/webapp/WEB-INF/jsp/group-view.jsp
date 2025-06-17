@@ -13,15 +13,17 @@
     <style>
         
         header {
-		    background-color: var(--pink);
-		    padding: 0.7em 2em;
+            background-color: var(--pink);
+		    padding: 1.2em 2em;
 		    display: flex;
+		    font-size: 20px;
 		    justify-content: space-between;
 		    align-items: center;
 		    flex-wrap: wrap;
 		    border-radius: 12px;
-		    margin: 0.4em 0.4em;
-		}
+		    margin: 1em 1em;
+		    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+        }
 
         /* Base styles general button rules */
 		.btn {
@@ -37,7 +39,7 @@
 		/* overrides the default .btn width */
 		.nav-buttons .btn {
 		    font-size: 0.8em;
-		    padding: 1em 1.2em;
+		    padding: 0.9em 1em;
 		    min-width: 50px;
 		    min-height: 40px;  
 		    background-color: var(--orange);
@@ -58,15 +60,17 @@
         }
 
         .welcome {
-            font-size: 1.4em;
+            font-size: 1.2em;
             color: var(--text-dark);
-            margin-top: 0.5em;
+            margin-top: 0.3em;
+            margin-bottom: 0.0em;
         }
 
         h1 {
-            font-size: 2em;
+            margin-top: 0.05em;
+            font-size: 1.35em;
             color: var(--text-dark);
-            margin-bottom: 0.2em;
+            margin-bottom: 0.21em;
         }
 
         main {

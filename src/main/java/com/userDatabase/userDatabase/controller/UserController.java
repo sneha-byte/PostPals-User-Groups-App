@@ -1,24 +1,34 @@
 package com.userDatabase.userDatabase.controller;
 
+import com.userDatabase.userDatabase.exception.UserNotFoundException;
 import com.userDatabase.userDatabase.model.User;
 import com.userDatabase.userDatabase.service.UserService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     UserService userService;
-    
 
     // Create
     @PostMapping("")
     public String createUser(@RequestBody User user) {
+    	logger.info("CreateUser(): begin");
         userService.create(user);
         return "success";
     }
@@ -31,8 +41,24 @@ public class UserController {
 
     // Read one user by ID
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.getById(id);
+    public ResponseEntity <Map<String, Object>> getUserById(@PathVariable Long id) {
+    	Map<String, Object> response = new HashMap<>();
+    	boolean success = false; 
+        try {
+        	User user = userService.getById(id);
+        	response.put("user", user);
+        	response.put("message", "User found successfully");
+        	success = true; 
+        	response.put("success", success);        	
+        	return ResponseEntity.status(HttpStatus.OK).body(response);
+        	
+        } catch (UserNotFoundException e) {
+        	logger.error("User not found by Id: {}", id, e);
+        	success = false; 
+        	response.put("success", success); 
+        	response.put("message", "User not found");
+        	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
     }
 
     // Update one user
