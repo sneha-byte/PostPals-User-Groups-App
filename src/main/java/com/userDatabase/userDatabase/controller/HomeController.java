@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.userDatabase.userDatabase.exception.UserNotFoundException;
 import com.userDatabase.userDatabase.model.*;
 import com.userDatabase.userDatabase.repository.*;
 import com.userDatabase.userDatabase.service.*;
@@ -88,15 +89,22 @@ public class HomeController {
                                @RequestParam String email,
                                @RequestParam String password,
                                Model sample) {
-
-        if (userService.getByUsername(name) != null) {
-            sample.addAttribute("error", "Username already exists!");
-            return "signup";
-        }
+        try {
+            if (userService.getByUsername(name) != null) {
+                sample.addAttribute("error", "Username already exists!");
+                return "signup";
+            }
+        } catch (UserNotFoundException e) {
         
-        if (userService.getByEmail(email) != null) {
-            sample.addAttribute("error", "Email already exists!");
-            return "signup";
+        }
+
+        try {
+            if (userService.getByEmail(email) != null) {
+                sample.addAttribute("error", "Email already exists!");
+                return "signup";
+            }
+        } catch (UserNotFoundException e) {
+        	
         }
 
         User newUser = new User();

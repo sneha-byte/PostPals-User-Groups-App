@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.userDatabase.userDatabase.exception.UserNotFoundException;
+import com.userDatabase.userDatabase.model.Group;
+import com.userDatabase.userDatabase.model.Membership;
 import com.userDatabase.userDatabase.model.User;
 import com.userDatabase.userDatabase.repository.GroupRepository;
 import com.userDatabase.userDatabase.repository.MembershipRepository;
@@ -38,7 +41,9 @@ public class UserService {
 
     public List<Group> getGroupsForUser(Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
-        if (userOptional.isEmpty()) return List.of();
+        if (userOptional.isEmpty()) {
+        	return List.of();
+        }
 
         User user = userOptional.get();
         List<Membership> memberships = membershipRepository.findByUser(user);
@@ -69,7 +74,6 @@ public class UserService {
             String hashedPassword = passwordEncoder.encode(updatedUser.getPassword());
             existingUser.setPassword(hashedPassword);
         }
-
         userRepository.save(existingUser);
     }
 
