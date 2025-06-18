@@ -1,5 +1,6 @@
 package com.userDatabase.userDatabase.controller;
 
+import com.userDatabase.userDatabase.exception.GroupNotFoundException;
 import com.userDatabase.userDatabase.model.Group;
 import com.userDatabase.userDatabase.model.Membership;
 import com.userDatabase.userDatabase.model.User;
@@ -11,6 +12,8 @@ import com.userDatabase.userDatabase.service.GroupService;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -75,25 +78,29 @@ public class GroupController {
     }
     
     @PostMapping("/create")
-    public String createGroup(@RequestParam String groupName, HttpSession session) {
+    public String createGroup(@RequestParam String groupName, HttpSession session, Model sample) {
         User user = (User) session.getAttribute("loggedInUser");
-
         if (user == null) {
             return "redirect:/login";
         }
 
-        Group newGroup = new Group();
-        newGroup.setName(groupName);
-        groupRepository.save(newGroup);
+        try {
+            Group newGroup = new Group();
+            newGroup.setName(groupName);
+            groupRepository.save(newGroup);
 
-        // Auto-add creator as member
-        Membership membership = new Membership();
-        membership.setGroup(newGroup);
-        membership.setUser(user);
-        membership.setRole("creator");
-        membershipRepository.save(membership);
+            Membership membership = new Membership();
+            membership.setGroup(newGroup);
+            membership.setUser(user);
+            membership.setRole("creator");
+            membershipRepository.save(membership);
 
-        return "redirect:/group/groups";
+            return "redirect:/group/groups";
+
+        } catch (Exception e) {
+            sample.addAttribute("errorMessage", "Error creating group: " + e.getMessage());
+            return "groupCreateForm"; // or any error page you have
+        }
     }
 
     @GetMapping("")
@@ -102,9 +109,19 @@ public class GroupController {
         return groupService.findAllGroups();
     }
 
+    // Delete group using group service delete function
     @DeleteMapping("/{id}")
     @ResponseBody
-    public void deleteGroup(@PathVariable Long id) {
-        groupService.deleteGroup(id);
+    public ResponseEntity<String> deleteGroup(@PathVariable Long id) {
+        try {
+            groupService.deleteGroup(id);
+            return ResponseEntity.ok("Group deleted successfully");
+            
+        } catch (GroupNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting group");
+        }
     }
+
 }

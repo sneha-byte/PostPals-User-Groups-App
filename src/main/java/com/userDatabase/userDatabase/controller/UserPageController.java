@@ -33,21 +33,25 @@ public class UserPageController {
         if (user == null) {
         	return "redirect:/login";
         }
-
-        List<com.userDatabase.userDatabase.model.User> users = userService.findAllUsers();
-        sample.addAttribute("users", users);
-        sample.addAttribute("user", user);
+        try {
+        	List<com.userDatabase.userDatabase.model.User> users = userService.findAllUsers();
+            sample.addAttribute("users", users);
+            sample.addAttribute("user", user);
+        } catch (Exception e) {
+        	sample.addAttribute("Error finding users"); 
+        	e.printStackTrace();
+        }  
         return "members";
     }
     
     // Filters user list in user repo using the input username 
     @GetMapping("/search-users")
-    public String searchUsersByUsername(@RequestParam("username") String username, Model model) {
+    public String searchUsersByUsername(@RequestParam("username") String username, Model sample) {
         try {
             List<User> users = userRepository.findByUsernameContainingIgnoreCase(username);
-            model.addAttribute("users", users);
+            sample.addAttribute("users", users);
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "An error occurred while searching for users.");
+            sample.addAttribute("errorMessage", "An error occurred while searching for users.");
             e.printStackTrace(); 
         }
         return "members";
