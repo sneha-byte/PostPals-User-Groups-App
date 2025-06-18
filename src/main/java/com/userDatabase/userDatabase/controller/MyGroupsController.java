@@ -24,15 +24,15 @@ public class MyGroupsController {
     private MembershipRepository membershipRepository;
     
     @GetMapping("/my-groups")
-    public String showUserGroups(HttpSession session, Model model) {
+    public String showUserGroups(HttpSession session, Model sample) {
         User user = (User) session.getAttribute("loggedInUser");
         if (user == null) {
             return "redirect:/login";
         }
 
         List<Membership> memberships = membershipRepository.findByUser(user);
-        model.addAttribute("memberships", memberships);
-        model.addAttribute("user", user);
+        sample.addAttribute("memberships", memberships);
+        sample.addAttribute("user", user);
         return "my-groups"; 
     }
 }

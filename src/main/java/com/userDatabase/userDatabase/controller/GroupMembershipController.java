@@ -39,6 +39,7 @@ public class GroupMembershipController {
     @Autowired
     private UserRepository userRepository;
     
+    // Creates a new membership using membership service add user to group function
     @PostMapping("/add")
     public String addMembership(@RequestParam Long groupId,
                                 @RequestParam String role,
@@ -49,14 +50,13 @@ public class GroupMembershipController {
         try {
             membershipService.addUserToGroupWithRole(user.getId(), groupId, role);
         } catch (UserNotFoundException | GroupNotFoundException e) {
-            // Handle appropriately (maybe redirect with error message)
             e.printStackTrace();
             return "redirect:/error";
         }
-
         return "redirect:/my-groups";
     }
 
+    // Removes a user from a group using membership service remove user function
     @PostMapping("/leave")
     public String leaveGroup(@RequestParam Long groupId,
                              HttpSession session) {
@@ -69,7 +69,7 @@ public class GroupMembershipController {
         return "redirect:/my-groups";
     }
     
-    // Join a group
+    // Join a group by creating a new membership object with the user and group and role as a member
     @PostMapping("/groups/join")
     public String joinGroup(@RequestParam Long groupId,
                             @RequestParam Long userId) {
