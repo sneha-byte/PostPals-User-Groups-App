@@ -1,5 +1,7 @@
 package com.userDatabase.userDatabase.controller;
 
+import com.userDatabase.userDatabase.exception.GroupNotFoundException;
+import com.userDatabase.userDatabase.exception.UserNotFoundException;
 import com.userDatabase.userDatabase.model.Group;
 import com.userDatabase.userDatabase.model.Membership;
 import com.userDatabase.userDatabase.model.User;
@@ -44,7 +46,14 @@ public class GroupMembershipController {
         User user = (User) session.getAttribute("loggedInUser");
         if (user == null) return "redirect:/login";
 
-        membershipService.addUserToGroupWithRole(user.getId(), groupId, role);
+        try {
+            membershipService.addUserToGroupWithRole(user.getId(), groupId, role);
+        } catch (UserNotFoundException | GroupNotFoundException e) {
+            // Handle appropriately (maybe redirect with error message)
+            e.printStackTrace();
+            return "redirect:/error";
+        }
+
         return "redirect:/my-groups";
     }
 

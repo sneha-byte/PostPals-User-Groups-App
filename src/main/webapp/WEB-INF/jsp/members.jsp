@@ -166,6 +166,52 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
+        
+        /* Container for search bar */
+		.search-member-container {
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    gap: 1em;
+		    flex-wrap: wrap;
+		    margin-bottom: 2em;
+		}
+		
+		/* Input field */
+		.group-input {
+		    padding: 0.7em 1em;
+		    border: 1px solid #ccc;
+		    border-radius: 8px;
+		    font-size: 1em;
+		    min-width: 250px;
+		    background-color: white;
+		    color: var(--text-dark);
+		    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+		    transition: border-color 0.3s ease;
+		}
+		
+		.group-input:focus {
+		    border-color: var(--orange);
+		    outline: none;
+		}
+		
+		/* Search Button */
+		.search-button {
+		    padding: 0.7em 1.2em;
+		    background-color: var(--orange);
+		    color: var(--text-dark);
+		    font-weight: bold;
+		    font-size: 1em;
+		    border: none;
+		    border-radius: 8px;
+		    cursor: pointer;
+		    transition: background-color 0.3s ease;
+		    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+		}
+		
+		.search-button:hover {
+		    background-color: #ffc09f;
+		}
     </style>
 </head>
 
@@ -185,6 +231,14 @@
     <main>
         <h1 class="page-title">Users</h1>
         <div class="table-container">
+	        <div style="text-align: center; margin-bottom: 2em;">
+				    <div class="search-member-container">
+					    <form action="/search-users" method="get">
+					        <input type="text" id="username" name="username" placeholder="Search by username..." required class="group-input" />
+					        <button type="submit" class="search-button">Search</button>
+					    </form>
+					</div>
+			</div>
             <table class="members-table">
                 <thead>
                     <tr>

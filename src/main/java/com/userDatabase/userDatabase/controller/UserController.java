@@ -105,6 +105,7 @@ public class UserController {
         }
     }
 
+    
     // Read one user by email
     @GetMapping("/by-email")
     public ResponseEntity<Map<String, Object>> getByEmail(@RequestParam(name = "email") String email) {
