@@ -63,6 +63,7 @@ public class UserController {
             response.put("user", user);
             response.put("userResponse", new UserResponse(true, "User found successfully"));
             return ResponseEntity.ok(response);
+            
         } catch (UserNotFoundException e) {
             logger.error("User not found by Id: {}", id, e);
             response.put("userResponse", new UserResponse(false, "User not found"));
@@ -78,6 +79,7 @@ public class UserController {
             userService.update(id, updatedUser);
             response.put("userResponse", new UserResponse(true, "User updated successfully"));
             return ResponseEntity.ok(response);
+            
         } catch (UserNotFoundException e) {
             logger.error("User not found for update: {}", id, e);
             response.put("userResponse", new UserResponse(false, "User not found"));
@@ -98,6 +100,7 @@ public class UserController {
             response.put("user", user);
             response.put("userResponse", new UserResponse(true, "User found by username"));
             return ResponseEntity.ok(response);
+            
         } catch (UserNotFoundException e) {
             logger.error("User not found by username: {}", username, e);
             response.put("userResponse", new UserResponse(false, "User not found"));
@@ -115,6 +118,7 @@ public class UserController {
             response.put("user", user);
             response.put("userResponse", new UserResponse(true, "User found by email"));
             return ResponseEntity.ok(response);
+            
         } catch (UserNotFoundException e) {
             logger.error("User not found by email: {}", email, e);
             response.put("userResponse", new UserResponse(false, "User not found"));
@@ -130,6 +134,7 @@ public class UserController {
             userService.delete(id);
             response.put("userResponse", new UserResponse(true, "User deleted successfully"));
             return ResponseEntity.ok(response);
+            
         } catch (UserNotFoundException e) {
             logger.error("User not found for delete: {}", id, e);
             response.put("userResponse", new UserResponse(false, "User not found"));
@@ -150,6 +155,7 @@ public class UserController {
             response.put("users", users);
             response.put("userResponse", new UserResponse(true, "Users found with name: " + name));
             return ResponseEntity.ok(response);
+            
         } catch (Exception e) {
             logger.error("Error searching users by name", e);
             response.put("userResponse", new UserResponse(false, "Failed to search users"));

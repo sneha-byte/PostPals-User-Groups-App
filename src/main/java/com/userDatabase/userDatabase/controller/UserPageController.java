@@ -2,6 +2,7 @@ package com.userDatabase.userDatabase.controller;
 
 import java.util.List;
 
+import com.userDatabase.userDatabase.exception.UserNotFoundException;
 import com.userDatabase.userDatabase.model.User;
 import com.userDatabase.userDatabase.repository.UserRepository;
 
@@ -46,15 +47,18 @@ public class UserPageController {
     
     // Filters user list in user repo using the input username 
     @GetMapping("/search-users")
-    public String searchUsersByUsername(@RequestParam("username") String username, Model sample) {
-        try {
-            List<User> users = userRepository.findByUsernameContainingIgnoreCase(username);
-            sample.addAttribute("users", users);
-        } catch (Exception e) {
-            sample.addAttribute("errorMessage", "An error occurred while searching for users.");
-            e.printStackTrace(); 
+    public String searchUsers(@RequestParam(required = false) String username, Model model) throws UserNotFoundException {
+        List<User> users;
+        if (username == null || username.trim().isEmpty()) {
+            users = userService.findAllUsers(); // Or however you get all users
+        } else {
+            users = (List<User>) userService.getByUsername(username); // Your search logic
         }
-        return "members";
+
+        model.addAttribute("users", users);
+        model.addAttribute("searchedUsername", username); // <--- Add this
+        return "members"; // or whatever your JSP is
     }
+
 }
 	

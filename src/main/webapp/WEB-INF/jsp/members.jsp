@@ -168,27 +168,29 @@
         }
         
         /* Container for search bar */
-		.search-member-container {
+		.search-member-container form {
 		    display: flex;
-		    justify-content: center;
-		    align-items: center;
+		    margin-right: 20em; 
+		    margin-left: 20em;
+		    align-items: center;  
+		    justify-content: center; 
 		    gap: 1em;
-		    flex-wrap: wrap;
-		    margin-bottom: 2em;
 		}
-		
+				
 		/* Input field */
 		.group-input {
-		    padding: 0.7em 1em;
+		    padding: 0.3em 1em;
 		    border: 1px solid #ccc;
-		    border-radius: 8px;
+		    border-radius: 15px;
 		    font-size: 1em;
-		    min-width: 250px;
+		    min-width: 140px; 
+		    min-height: 49px; 
 		    background-color: white;
 		    color: var(--text-dark);
 		    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
 		    transition: border-color 0.3s ease;
 		}
+
 		
 		.group-input:focus {
 		    border-color: var(--orange);
@@ -197,12 +199,14 @@
 		
 		/* Search Button */
 		.search-button {
-		    padding: 0.7em 1.2em;
-		    background-color: var(--orange);
+		    padding: 0.2em 1.6em;
+		    background-color: var(--orange-dark);
 		    color: var(--text-dark);
 		    font-weight: bold;
+		    min-width: 140px; 
 		    font-size: 1em;
 		    border: none;
+		    min-height: 49px;  
 		    border-radius: 8px;
 		    cursor: pointer;
 		    transition: background-color 0.3s ease;
@@ -212,6 +216,7 @@
 		.search-button:hover {
 		    background-color: #ffc09f;
 		}
+		
     </style>
 </head>
 
@@ -231,13 +236,16 @@
     <main>
         <h1 class="page-title">Users</h1>
         <div class="table-container">
-	        <div style="text-align: center; margin-bottom: 2em;">
-				    <div class="search-member-container">
-					    <form action="/search-users" method="get">
-					        <input type="text" id="username" name="username" placeholder="Search by username..." required class="group-input" />
-					        <button type="submit" class="search-button">Search</button>
-					    </form>
-					</div>
+	        <div style="margin-bottom: 2em;">
+				<div class="search-member-container">
+				    <form action="/search-users" method="get">
+				        <input type="text" id="username" name="username"
+					       placeholder="Search by username..."
+					       class="group-input"
+					       value="${searchedUsername}" />
+				        <button type="submit" class="search-button">Search</button>
+				    </form>
+				</div>
 			</div>
             <table class="members-table">
                 <thead>

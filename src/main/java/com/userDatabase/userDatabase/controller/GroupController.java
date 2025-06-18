@@ -77,6 +77,8 @@ public class GroupController {
         return "groups";
     }
     
+    // Creates group by saving it to group repo with inputted name and adding the creator as a member in the group with role
+    // creator. 
     @PostMapping("/create")
     public String createGroup(@RequestParam String groupName, HttpSession session, Model sample) {
         User user = (User) session.getAttribute("loggedInUser");
@@ -99,7 +101,7 @@ public class GroupController {
 
         } catch (Exception e) {
             sample.addAttribute("errorMessage", "Error creating group: " + e.getMessage());
-            return "groupCreateForm"; // or any error page you have
+            return "groupCreateForm"; 
         }
     }
 
