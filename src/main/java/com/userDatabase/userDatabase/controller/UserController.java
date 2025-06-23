@@ -54,16 +54,15 @@ public class UserController {
         }
     }
 
-    // Read one user by ID
-    @GetMapping("/{id}")
+    // Read one user by ID 
+    @GetMapping("/{id}") 
     public ResponseEntity<Map<String, Object>> getUserById(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
-        try {
+        try { 
             User user = userService.getById(id);
             response.put("user", user);
             response.put("userResponse", new UserResponse(true, "User found successfully"));
             return ResponseEntity.ok(response);
-            
         } catch (UserNotFoundException e) {
             logger.error("User not found by Id: {}", id, e);
             response.put("userResponse", new UserResponse(false, "User not found"));
@@ -108,7 +107,6 @@ public class UserController {
         }
     }
 
-    
     // Read one user by email
     @GetMapping("/by-email")
     public ResponseEntity<Map<String, Object>> getByEmail(@RequestParam(name = "email") String email) {

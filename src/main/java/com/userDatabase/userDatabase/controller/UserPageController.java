@@ -32,15 +32,15 @@ public class UserPageController {
     public String showMembersPage(HttpSession session, Model sample) {
         User user = (User) session.getAttribute("loggedInUser");
         if (user == null) {
-        	return "redirect:/login";
+            return "redirect:/login";
         }
         try {
-        	List<com.userDatabase.userDatabase.model.User> users = userService.findAllUsers();
+            List<User> users = userService.findAllUsers();
             sample.addAttribute("users", users);
             sample.addAttribute("user", user);
         } catch (Exception e) {
-        	sample.addAttribute("Error finding users"); 
-        	e.printStackTrace();
+            sample.addAttribute("errorMessage", "Error finding users"); 
+            e.printStackTrace();
         }  
         return "members";
     }
@@ -50,15 +50,14 @@ public class UserPageController {
     public String searchUsers(@RequestParam(required = false) String username, Model model) throws UserNotFoundException {
         List<User> users;
         if (username == null || username.trim().isEmpty()) {
-            users = userService.findAllUsers(); // Or however you get all users
+            users = userService.findAllUsers(); 
         } else {
-            users = (List<User>) userService.getByUsername(username); // Your search logic
+            users = userService.findByName(username); 
         }
 
         model.addAttribute("users", users);
-        model.addAttribute("searchedUsername", username); // <--- Add this
-        return "members"; // or whatever your JSP is
+        model.addAttribute("searchedUsername", username);
+        return "members"; 
     }
-
 }
 	
